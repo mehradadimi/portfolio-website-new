@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=PT+Mono&family=Tektur&display=swap');
+
+.about {
+    min-height: 100vh;
+    width: 100vw;
+    background-color: var(--background-about-color);
+    overflow-x: hidden;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.about-container {
+    min-height: 80vh;
+    width: 80vw;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.about .top {
+    color: white;
+    font-family: 'Tektur', sans-serif;
+    margin-bottom: 4rem;
+}
+
+
+.about h1 {
+   font-size: 4rem;
+    font-weight: 600;
+}
+
+
+.about video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.about-card-container {
+    grid-auto-rows: minmax(min-content, max-content);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    width: 100%;
+    max-width: 1200px; 
+    margin: 0 auto; 
+    align-content: start;
+    background-color: var(--about-card-background);
+}
+
+.about-card{
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.about-card-container > div {
+    border: 5px solid var(--about-card-border);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.about_card {
+    padding: 1rem;
+    min-height: 200px;
+    max-height: 650px;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .about-overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--about-overlay);
+    z-index: 5;
+}
+  
+  
+  .card-title h2 {
+    margin: 0;
+    font-size: 1.5rem; 
+    color: var(--about-card-title);
+    font-family: 'Tektur', sans-serif;
+    font-weight: bolder;
+  }
+  
+  .card-title{
+    display: flex;
+    align-items: center;
+    flex-direction: column; 
+    justify-content: space-evenly;
+  }
+  
+  .card-description {
+    font-weight: normal;
+    color: var(--about-card-desc);
+    font-family: 'Tektur', sans-serif;
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+
+  .icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .title-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+
+  @media screen and (max-width: 768px) {
+    .about-card-container {
+        grid-template-columns: 1fr; 
+      }
+    .about-card {
+      height: auto; 
+    }
+  }
+  
+
+  @media screen and (max-width: 1200px) {
+    .about-card-container {
+      width: 90%;
+    }
+  }
+  
+
+  @media screen and (max-width: 600px) {
+    .about-card-container {
+        grid-template-columns: 1fr; 
+    }
+    
+    .about .top {
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+    }
+
+    .about h1{
+        font-size: 2rem;
+        font-weight: 600;
+    }
+    .card-title {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+
+    .about-container {
+        width: 80vw;
+        height: auto; 
+    }
+    
+    .about-card-container {
+      width: 100%; 
+    }
+
+
+    .icon-container {
+        width: 10%;
+        height: 10%;
+    }
+
+    .card-title h2 {
+        margin: 0;
+        font-size: 1rem;
+    }
+
+    .card-description {
+        margin-top: 10px;
+        font-family: 'Tektur', sans-serif;
+        font-size: .8rem;
+        font-weight: 600;
+    }
+  }
+
+
+  @media screen and (max-width: 280px) {
+
+    .about-card-container {
+        grid-template-columns: 1fr; 
+        width: 100%; 
+    }
+    
+    .about .top {
+        margin: 0;
+    }
+
+    .about h1{
+        font-size: 2rem;
+        font-weight: 600;
+    }
+    .card-title {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+
+    .about-container {
+        width: 80vw;
+        height: auto; 
+    }
+    
+
+
+
+    .icon-container {
+        width: 10%;
+        height: 10%;
+    }
+
+    .card-title h2 {
+        margin: 0;
+        font-size: 1rem;
+    }
+
+    .card-description {
+        margin-top: 10px;
+        font-family: 'Tektur', sans-serif;
+        font-size: .8rem;
+        font-weight: 600;
+    }
+
+
+    .about-card-container {
+        width: 80vw;
+    }
+
+    .about-card-container > div {
+        width: 100%; 
+        height: auto;
+        padding: 0.5rem; 
+    }
+  }
+
+

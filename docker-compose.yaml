@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  my-portfolio-new:
+    build: ./
+    container_name: my_portfolio_c
+    ports:
+      - '3000:3000'
+    stdin_open: true
+    tty: true 
+

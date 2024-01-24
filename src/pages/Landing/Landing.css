@@ -1,0 +1,298 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=PT+Mono&family=Tektur&display=swap');
+
+
+.landing{
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--background-landing-color);
+    font-family: 'Tektur', sans-serif;
+    opacity: 0; 
+    transition: opacity .5s ease-in; 
+}
+
+
+.fade-in {
+    opacity: 1; 
+  }
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--landing-overlay)
+}
+
+.landing .container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.freeze-screen {
+    overflow: hidden;
+    height: 100vh;
+}
+
+.landing .top{
+    margin-top: 20rem;
+    color: var(--landing-text-color);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    font-size: 3.5rem;
+    text-shadow: 20px;
+    background: var(--landing-top-background)
+}
+
+.bottom {
+    color: var(--landing-text-color);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    font-size: 1.5rem;
+    animation: bounce 2s ease infinite;
+    background-color: rgba(128, 128, 128, 0.017);
+    font-weight: 800;
+    cursor:auto;
+}
+
+
+@keyframes colorChange {
+    0% {
+      background-color: rgba(140, 140, 140, 0.2);
+    }
+    50% {
+      background-color: rgba(255, 255, 255, 0.5); 
+    }
+    100% {
+      background-color: rgba(140, 140, 140, 0.2);
+    }
+}
+
+
+.freezeButton {
+    color: var(--freeze-button-text);
+    background-color: var(--freeze-button-background); 
+    border: none;
+    width: 8rem;
+    height: 3rem;
+    border-radius: 15px;
+    margin: 1rem;
+    font-weight: bold;
+    font-size: 15px;
+    font-family: 'Tektur', sans-serif;
+    cursor: pointer;
+    animation: colorChange 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-30px);
+    }
+    60% {
+      transform: translateY(-15px);
+    }
+  }
+
+.landing .line-text{ 
+    color: var(--line-color);
+    font-family: 'Tektur', sans-serif;
+}
+
+.text3D {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) perspective(500px);
+    font-size: 4rem;
+    color: var(--landing-text-color);
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    animation: fadeInOut 3.5s forwards;
+    z-index: 1000; 
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.dimmed {
+    position: relative;
+}
+
+.dimmed:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--landing-dimmed-color); 
+    z-index: 999;
+}
+
+
+
+.landing-line-wrapper {
+    font-family: 'Tektur', sans-serif;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--line-color);
+}
+
+.landing-line-to-arrow {
+    margin-top: 20px;
+    width: 2px;
+    height: 100px;
+    background-color: var(--line-color);
+    transition: all 0.5s ease;
+    color: var(--line-color);
+}
+
+.landing-line-to-arrow::before,
+.landing-line-to-arrow::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    height: 10px;
+    background-color:var(--line-color);
+    transition: all 0.5s ease;
+    transform-origin: bottom;
+    opacity: 0;
+}
+
+.landing-line-to-arrow::before {
+    transform: translateX(-50%) rotate(45deg);
+}
+
+.landing-line-to-arrow::after {
+    transform: translateX(-50%) rotate(-45deg);
+}
+
+.landing-line-wrapper:hover .landing-line-to-arrow {
+    height: 80px; 
+}
+
+.landing-line-wrapper:hover .landing-line-to-arrow::before,
+.landing-line-wrapper:hover .landing-line-to-arrow::after {
+    opacity: 1;
+}
+
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+    .landing .top {
+        margin-top: 15rem; 
+        font-size: 2.5rem;
+        padding: 0 2rem; 
+        background: none;
+    }
+
+    .bottom {
+        font-size: 1.2rem;
+        padding: 0 2rem; 
+        text-align: center; 
+    }
+
+    .freezeButton {
+        width: 7rem; 
+        height: 2.5rem; 
+        font-size: 14px;
+    }
+
+    .text3D {
+        font-size: 3.5rem;
+    }
+
+    .landing-line-wrapper {
+        bottom: 30px; 
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+    .landing .top {
+        margin-top: 10rem;
+        font-size: 2rem; 
+        padding: 1rem;
+        background: none;
+    }
+
+    .bottom {
+        font-size: 1.5rem; 
+        padding: 1rem;
+        text-align: center; 
+    }
+
+    .freezeButton {
+        width: 8rem;
+        height: 3rem;
+        font-size: 12px; 
+    }
+
+    .text3D {
+        font-size: 3rem; 
+    }
+    
+    .landing-line-wrapper {
+        bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 280px) {
+    .landing .top {
+        margin-top: 8rem; 
+        font-size: 1.8rem; 
+        padding: 0 1rem; 
+        background: none;
+    }
+
+    .bottom {
+        font-size: 1rem;
+        padding: 0 1rem; 
+        text-align: center; 
+    }
+
+    .freezeButton {
+        width: 5rem; 
+        height: 2rem; 
+        font-size: 10px; 
+    }
+
+    .text3D {
+        font-size: 2.5rem; 
+    }
+
+    .landing-line-wrapper {
+        bottom: 15px; 
+        font-size: 0.8rem; 
+    }
+}

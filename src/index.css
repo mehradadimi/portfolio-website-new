@@ -1,0 +1,140 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+ 
+}
+
+
+.App.light {
+
+  --logo-color: #000;
+  --hamburger-color: #000;
+
+
+  --background-color: #9d9d9d;
+  --splash-name-text-color: #0a0a0a;
+  --splash-title-text-color: #4f4f4f;
+
+  --background-landing-color: #fefefe;
+  --background-about-color: #fefefe;
+  --background-handling-color: #fefefe;
+  --background-contact-color:#fefefe;
+  
+
+  --navbar-background: #fff;
+  --navbar-menu-text:#000;
+  --navbar-li-background-before:rgba(255, 255, 255, 0.222);
+
+  --progress-bar: #000;
+
+  --landing-text-color: #000;
+  --landing-dimmed-color: rgba(255, 255, 255, 0.797);
+
+  --theme-toggle-color: #000000;
+  --theme-toggle-color-small: #ffffff;
+
+  --line-color: #000;
+
+  --landing-overlay: rgba(255, 255, 255, 0.177);
+  --about-overlay: rgba(255, 255, 255, 0.149);
+
+  
+  --landing-top-background:rgba(255, 255, 255, 0.222);
+
+  --navbar-background: rgba(24, 24, 24, 0.807);
+
+  --freeze-button-background: rgba(71, 71, 71, 0.2);
+
+  --freeze-button-text: #000;
+
+  --about-card-title: rgb(255, 255, 255);
+
+  --about-card-border: rgb(255, 255, 255);
+  --about-card-background:none;
+  --about-card-desc:rgb(255, 255, 255);
+
+  --footer-icon-color: black;
+  --scroll-footer-color: rgba(163, 163, 163, 0.46);
+
+
+  --layout-cards-closed: white;
+  --layout-cards-background: #000000c4;
+  --navbar-active-color: #3e3e3e;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.App.dark {
+  --logo-color: #fff;
+  --hamburger-color: #fff;
+  --navbar-active-color: #000000;
+
+  --background-color: #1e1e1e;
+  --splash-name-text-color: #d1d1d1;
+  --splash-title-text-color: #999999;
+
+  --background-landing-color: #000;
+  --background-about-color: #000;
+  --background-handling-color: #000;
+  --background-contact-color: #000;
+
+  --navbar-menu-text:#fff;
+  --navbar-li-background-before:rgb(248, 248, 248 , 0.13);
+
+  --progress-bar: rgba(159, 159, 159, 0.615); ;
+
+
+  --landing-text-color: #dbdbdb;
+  --landing-dimmed-color: rgba(0, 0, 0, 0.95);
+
+  --theme-toggle-color: #dbdbdb;
+
+  --line-color: #dbdbdb;
+
+  --landing-overlay: rgba(0, 0, 0, 0.8);
+  --about-overlay: none;
+
+  --landing-top-background:rgba(0, 0, 0, 0.447);
+
+
+  --about-card-title: white;
+
+  --freeze-button-background: rgba(140, 140, 140, 0.2);
+  
+  --freeze-button-text: #dbdbdb;
+
+  --about-card-border: white;
+  --about-card-background:rgba(34, 34, 34, 0.826);
+  --about-card-desc:white;
+
+  --footer-icon-color: white;
+  --scroll-footer-color: rgba(50, 50, 50, 0.708);
+
+  --layout-cards-closed: white;
+  --layout-cards-background: #1b1716;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* ul {
+  list-style-type: none;
+} */
+
+/* a {
+  text-decoration: none;
+} */
+
+
