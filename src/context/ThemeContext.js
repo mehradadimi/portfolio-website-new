@@ -3,11 +3,19 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState('light'); // Default theme
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setTheme(isDarkMode ? 'dark' : 'light');
+    const updateTheme = (e) => {
+      setTheme(e.matches ? "dark" : "light");
+    };
+    const query = window.matchMedia("(prefers-color-scheme: dark)");
+
+    updateTheme(query);
+
+    query.addEventListener("change", updateTheme);
+
+    return () => query.removeEventListener("change", updateTheme);
   }, []);
 
   return (
