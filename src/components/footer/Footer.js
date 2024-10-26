@@ -53,15 +53,6 @@ function Footer() {
       >
         <FontAwesomeIcon icon={faEnvelope} cursor="pointer" className="icon" />
       </a>
-
-      <a
-        href="https://filebin.net/37rjhp2wi64h6exk"
-        download="Resume.pdf"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <FontAwesomeIcon icon={faFile} cursor="pointer" className="icon" />
-      </a>
     </footer>
   );
 }

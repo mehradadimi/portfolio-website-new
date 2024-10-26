@@ -25,51 +25,74 @@ const cardData = [
   },
   {
     id: 2,
-    title: "ProteinPursuit",
-    imgUrl: "https://i.ibb.co/G9r8npT/Group-67.png",
+    title: "NutriDine",
+    imgUrl: "https://i.ibb.co/pbC2fwq/Screenshot-2024-10-25-at-9-02-36-PM.png",
+    url: "https://nutridine.netlify.app",
     description: (
       <>
-        <h3>ProteinPursuit Mobile App</h3>
+        <h3>NutriDine Progressive Web App</h3>
         <h4>
           <strong>Timeframe:</strong> Dec 2023 - Present
         </h4>
         <p>
-          Integral role in the development of ProteinPursuit, a user-centric
-          mobile application that helps individuals find nearby restaurants
-          based on the nutrition and calorie of the meal they want. Using NestJS
-          for the back-end functionality, handling all aspects of APIs,
-          databases, and class management. The mobile application, designed for
-          both Android and iOS platforms, is being developed using React Native
-          and seamlessly integrated with the back-end APIs. Key features include
-          application dockerization for efficient deployment, comprehensive
-          version control, and CI/CD managed through GitHub Actions and GitHub
-          Pages.
+          Developed a Progressive Web Application (PWA) that enables users to
+          find restaurants based on meal nutrition and calorie content. Using
+          React.js and TypeScript for the frontend, with Firebase as the
+          Backend-as-a-Service (BaaS) to manage data and authentication.
+          Integrated the NutritionX API for precise nutritional data, and built
+          location-based restaurant suggestions using the Google API, allowing
+          personalized recommendations based on user location and custom daily
+          nutrition goals. Leveraged Firebase Firestore for secure data storage
+          and integrated Firebase Authentication with options for Google,
+          GitHub, and Twitter logins. Configured continuous integration and
+          delivery through GitHub Actions and deployed the frontend on Netlify
+          for streamlined, automated release cycles.
         </p>
+        <a
+          href="https://nutridine.netlify.app"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "#000" }}
+        >
+          Visit NutriDine
+        </a>
       </>
     ),
   },
   {
-    id: 3,
-    title: "Whisp",
-    imgUrl: "https://i.ibb.co/nQKF6QD/Group-1882frame.png",
+    id: 5,
+    title: "PassedWords",
+    imgUrl: "https://i.ibb.co/9nCG3NN/IMG-0732.jpg",
+    url: "https://github.com/mehradadimi/PassedWords/",
     description: (
       <>
-        <h3>Wisp Mobile App</h3>
+        <h3>PassedWords Mobile App</h3>
         <h4>
-          <strong>Timeframe:</strong> Jan 2024 - Present
+          <strong>Timeframe:</strong> Oct 2024 - Present
         </h4>
         <p>
-          Key role in the development of Wisp, a user-centric mobile application
-          that helps students post anonymously on this platform and share their
-          concerns/confessions. Using NestJS for the back-end functionality,
-          handling all aspects of APIs, databases, and class management. The
-          mobile application, designed for both Android and iOS platforms, is
-          being developed using React Native and seamlessly integrated with the
-          back-end APIs.
+          Developed a secure password management application using React Native
+          (Expo) and the CryptoES library, implementing AES-256 encryption and
+          hashing for robust data protection of sensitive passwords and notes.
+          Integrated Ethereum blockchain storage via Web3 and ethers.js to
+          decentralize encrypted password storage, enabling users to retain full
+          ownership of their data on a secure, immutable platform. Configured
+          Firebase Authentication for secure user login and profile management,
+          with Firebase Firestore for encrypted data storage and access control
+          to manage permissions effectively.
         </p>
+        <a
+          href="https://github.com/mehradadimi/PassedWords/"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "#000" }}
+        >
+          Visit PassedWords
+        </a>
       </>
     ),
   },
+
   {
     id: 4,
     title: "SEQ-Bio",
