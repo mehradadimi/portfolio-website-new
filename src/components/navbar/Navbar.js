@@ -88,6 +88,12 @@ export default function Navbar() {
             </a>
           </li>
 
+          <li className={activeItem === 'experience' ? 'active' : ''} onClick={() => handleItemClick('experience')} style={{ pointerEvents: isClickable ? 'auto' : 'none' }}>
+            <a href="/experience">
+              <Link activeClass="active"  to="experience" spy={true} smooth={true} duration={500} onClick={handleCloseNav} >// Experience</Link>
+            </a>
+          </li>
+
           <li className={activeItem === 'project' ? 'active' : ''} onClick={() => handleItemClick('project')} style={{ pointerEvents: isClickable ? 'auto' : 'none' }}>
             <a href="/project">
               <Link activeClass="active"  to="projects" spy={true} smooth={true} duration={500} onClick={handleCloseNav} >// Projects</Link>

@@ -3,7 +3,6 @@ import React, {useState, useEffect, useRef} from 'react';
 import tunnel from '../../assets/videos/tunnel.mp4'
 import "./Landing.css"
 import TypeIt from "typeit-react";
-import { useClickable } from '../../context/ClickableContext';
 import { animateScroll as scroll } from 'react-scroll';
 import { motion, useAnimation, useInView } from "framer-motion";
 
@@ -30,21 +29,6 @@ const Landing = () => {
     }
   }, [isInView]);
 
-  const [buttonText, setButtonText] = useState("Let Me In");
-  const [instance, setInstance] = useState(null);
-  const [show3DText, setShow3DText] = useState(false);
-  const [showButtonAndText, setShowButtonAndText] = useState(true);
-  const { setIsClickable } = useClickable();
-
-  useEffect(() => {
-    document.body.classList.add("freeze-screen");
-  }, []);
-
-  const handle3DTextAnimationEnd = () => {
-    setShow3DText(false); // Hide text
-    handleArrowClick();
-  };
-
   const handleArrowClick = () => {
     scroll.scrollTo(window.innerHeight, {
       duration: 1000,
@@ -53,33 +37,12 @@ const Landing = () => {
     });
   };
 
-  const toggleFreeze = () => {
-    if (instance && instance.is("frozen")) {
-      // instance.unfreeze();
-      setButtonText("Let Me In");
-    } else if (instance) {
-      // instance.freeze();
-      setButtonText("You Are In");
-    }
-
-    // Remove scroll lock when button is clicked
-    document.body.classList.remove("freeze-screen");
-    setIsClickable(true);
-
-    setShow3DText(true);
-    setTimeout(handle3DTextAnimationEnd, 3000);
-    setShowButtonAndText(false);
-  };
-
   return (
     <div
       id="landing-page"
       name="landing"
-      className={`landing ${fadeIn ? "fade-in" : ""} ${
-        show3DText ? "dimmed" : ""
-      }`}
+      className={`landing ${fadeIn ? "fade-in" : ""}`}
     >
-      {show3DText && <div className="text3D">YOU CAN SCROLL NOW</div>}
       <div className="overlay"></div>
       <video
         src={tunnel}
@@ -124,47 +87,19 @@ const Landing = () => {
               afterComplete={(instance) => {
                 instance.destroy();
               }}
-              getAfterInit={(instance) => {
-                setInstance(instance);
-                return instance;
-              }}
             />
           </motion.div>
         </div>
 
-        <div className="bottom">
-          {showButtonAndText && (
-            <TypeIt
-              options={{ speed: 20, waitUntilVisible: true, loop: false }}
-              getBeforeInit={(instance) => {
-                instance
-                  .type("If you want to scroll, click on the button below!")
-                  .pause(750);
-                return instance;
-              }}
-              getAfterInit={(instance) => {
-                setInstance(instance);
-                return instance;
-              }}
-            />
-          )}
+        <div className="landing-line-wrapper" onClick={handleArrowClick}>
+          <p
+            className="landing-line-text"
+            style={{ fontSize: "1rem", fontWeight: "900" }}
+          >
+            Skills
+          </p>
+          <div className="landing-line-to-arrow"></div>
         </div>
-        {showButtonAndText && (
-          <button className="freezeButton" onClick={toggleFreeze}>
-            {buttonText}
-          </button>
-        )}
-        {!showButtonAndText && (
-          <div className="landing-line-wrapper" onClick={handleArrowClick}>
-            <p
-              className="landing-line-text"
-              style={{ fontSize: "1rem", fontWeight: "900" }}
-            >
-              Skills
-            </p>
-            <div className="landing-line-to-arrow"></div>
-          </div>
-        )}
       </div>
     </div>
   );

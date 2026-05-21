@@ -52,7 +52,7 @@ const cardData = [
           href="https://nutridine.netlify.app"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ color: "#000" }}
+          style={{ color: "var(--accent)", fontWeight: 600 }}
         >
           Visit NutriDine
         </a>
@@ -85,7 +85,7 @@ const cardData = [
           href="https://github.com/mehradadimi/PassedWords/"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ color: "#000" }}
+          style={{ color: "var(--accent)", fontWeight: 600 }}
         >
           Visit PassedWords
         </a>
@@ -172,7 +172,7 @@ const Projects = () => {
             layout
             onClick={() => handleClick(card.id)}
             ref={(el) => (containerRefs.current[card.id] = el)}
-            transition={{ duration: 1, type: "tween" }}
+            transition={{ type: "spring", stiffness: 260, damping: 28, mass: 0.6 }}
           >
             {selectedId === card.id ? (
               <div className="project-card-description">{card.description}</div>
@@ -191,6 +191,7 @@ const Projects = () => {
         <motion.div
           className="dim-layer"
           animate={{ opacity: selectedId ? 0.3 : 0 }}
+          transition={{ duration: 0.25 }}
         />
       </div>
     </div>

@@ -5,7 +5,7 @@ export const ClickableContext = createContext();
 export const useClickable = () => useContext(ClickableContext);
 
 export const ClickableProvider = ({ children }) => {
-  const [isClickable, setIsClickable] = useState(false);
+  const [isClickable, setIsClickable] = useState(true);
 
   return (
     <ClickableContext.Provider value={{ isClickable, setIsClickable }}>

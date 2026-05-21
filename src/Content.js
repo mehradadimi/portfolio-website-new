@@ -3,6 +3,7 @@ import Navbar from './components/navbar/Navbar';
 import Footer from './components/footer/Footer'
 import Landing from './pages/Landing/Landing';
 import AboutPage from './pages/About/AboutPage';
+import Experience from './pages/Experience/Experience';
 import Projects from "./pages/Project/Projects";
 import ContactMe from './pages/ContactMe/ContactMe';
 import { motion,
@@ -56,6 +57,7 @@ const Content = () => {
       <Navbar />
       <Landing />
       <AboutPage />
+      <Experience />
       <Projects />
       <ContactMe />
       {showFooter && <Footer />}
