@@ -41,18 +41,6 @@ const experiences = [
     tech: ['React', 'MobX', 'Chromium', 'TypeScript'],
   },
   {
-    role: 'Technical Team Analyst',
-    company: 'Toonie Holding',
-    org: '',
-    location: 'Remote',
-    period: 'Apr 2023 — Sep 2023',
-    highlights: [
-      'Designed the technical architecture for a cryptocurrency-exchange web app: end-to-end requirements (SRS, wireframes, data models) for the Agile team.',
-      'Built the Nest.js backend foundation from scratch and delivered REST APIs for an NFT marketplace and crypto-wallet flows.',
-    ],
-    tech: ['Nest.js', 'Node.js', 'TypeScript'],
-  },
-  {
     role: 'QA Specialist Co-op',
     company: 'Shift',
     org: 'Redbrick Media',
