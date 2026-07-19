@@ -22,7 +22,7 @@ export function thock(intensity = 1): void {
   if (!ac || !noiseBuffer) return
   const t = ac.currentTime
   const out = ac.createGain()
-  out.gain.value = 0.28 * intensity
+  out.gain.value = 0.5 * intensity
   out.connect(ac.destination)
 
   // filtered noise burst = the "clack"

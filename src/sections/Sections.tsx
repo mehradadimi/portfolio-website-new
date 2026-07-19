@@ -218,7 +218,7 @@ export function Contact() {
           </form>
         )}
         <p className="site-footer" data-reveal>
-          © {new Date().getFullYear()} Mehrad Adimi — three.js · GSAP · react — try the Konami code
+          © {new Date().getFullYear()} Mehrad Adimi
         </p>
       </div>
     </section>

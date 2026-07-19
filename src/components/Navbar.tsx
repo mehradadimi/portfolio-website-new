@@ -2,6 +2,7 @@ import { SECTIONS } from '../data/content'
 import { useStore } from '../state/store'
 import { scrollToSection } from '../scroll/scrollManager'
 import { MoonIcon, SoundOffIcon, SoundOnIcon, SunIcon } from './Icons'
+import { thock } from '../audio/thock'
 
 export function Navbar() {
   const theme = useStore((s) => s.theme)
@@ -20,7 +21,7 @@ export function Navbar() {
           scrollToSection('home')
         }}
       >
-        mehrad<em>.</em>adimi
+        Mehrad<em>.</em>Adimi
       </a>
       <div className="nav-links">
         {SECTIONS.map((id) => (
@@ -33,8 +34,12 @@ export function Navbar() {
       <div className="nav-actions">
         <button
           className="icon-btn"
-          onClick={toggleMuted}
-          aria-label={muted ? 'Unmute keyboard sounds' : 'Mute keyboard sounds'}
+          onClick={() => {
+            toggleMuted()
+            if (muted) thock() // audible feedback when turning sound on
+          }}
+          title={muted ? 'Turn on typing sounds' : 'Turn off typing sounds'}
+          aria-label={muted ? 'Turn on typing sounds' : 'Turn off typing sounds'}
         >
           {muted ? <SoundOffIcon /> : <SoundOnIcon />}
         </button>
