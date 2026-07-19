@@ -1,72 +1,43 @@
-# Mehrad Adimi's Portfolio Website
+# Mehrad Adimi — 3D Portfolio
 
-# Getting Started with Create React App
+An interactive 3D portfolio: a floating low-poly dev-desk island with a **typeable mechanical keyboard** — your real keystrokes press the 3D keys (with synthesized "thock" audio), and typing commands navigates the site.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Try it
 
-## Available Scripts
+- **Type** `projects`, `skills`, `experience`, `contact`, or `help` and hit ↵
+- **Scroll** — the camera flies around the desk per section
+- The monitor runs a live terminal that follows the active section and echoes what you type
+- There's a Konami-code easter egg (`↑↑↓↓←→←→BA`)
+- Sound and dark/light theme toggles live in the navbar
 
-In the project directory, you can run:
+## Stack
 
-### `npm start`
+- [React 19](https://react.dev) + [TypeScript](https://www.typescriptlang.org/) + [Vite](https://vite.dev)
+- [three.js](https://threejs.org) via [@react-three/fiber](https://r3f.docs.pmnd.rs) + [drei](https://drei.docs.pmnd.rs) — fully procedural scene, no 3D model files
+- [GSAP ScrollTrigger](https://gsap.com/docs/v3/Plugins/ScrollTrigger/) + [Lenis](https://lenis.darkroom.engineering/) for scroll
+- [zustand](https://zustand.docs.pmnd.rs/) for UI state; Web Audio API for keyboard sounds (no audio assets)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Performance
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- WebGL canvas lazy-mounts behind a static poster (fast LCP)
+- Device tiering: clamped DPR, fewer particles, and tap-to-press keys on mobile
+- `prefers-reduced-motion` disables smooth scroll, camera easing, and float animations
+- No GLTF/HDR downloads — geometry is procedural, lighting is analytic
 
-### `npm test`
+## Scripts
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm run dev       # dev server
+npm run build     # typecheck + production build to dist/
+npm run preview   # serve the production build
+```
 
-### `npm run build`
+## Contact form (optional)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The contact form posts through Brevo and only renders when `VITE_BREVO_API_KEY` is set (e.g. in `.env.local`). Without it, the section falls back to email/social buttons. Note that a client-side key is visible to visitors — prefer a serverless proxy if abuse is a concern.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Docker
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+docker compose up --build   # serves the production build on http://localhost:3000
+```
