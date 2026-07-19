@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { Float } from '@react-three/drei'
 import { Keyboard } from './Keyboard'
 import { Monitor } from './Monitor'
-import { Shards } from './Shards'
+import { FloatingKeycaps, Constellation } from './FloatingBits'
 import { ProjectPanels } from './ProjectPanels'
 import { useStore } from '../state/store'
 import { prefersReducedMotion } from '../scroll/scrollManager'
@@ -160,7 +160,8 @@ export function DeskScene() {
         </Float>
       ))}
 
-      <Shards />
+      <FloatingKeycaps />
+      <Constellation />
       <ProjectPanels />
     </group>
   )
