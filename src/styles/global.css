@@ -1,6 +1,4 @@
 :root {
-  --accent: #ff6b4a;
-  --accent-soft: rgba(255, 107, 74, 0.14);
   --font-display: 'Tektur', sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
   --font-mono: 'PT Mono', ui-monospace, monospace;
@@ -9,6 +7,9 @@
 }
 
 [data-theme='dark'] {
+  --accent: #ff6b4a;
+  --accent-hover: #ff8266;
+  --accent-soft: rgba(255, 107, 74, 0.14);
   --bg: #0b0b0f;
   --text: #f4f4f6;
   --text-2: #c4c4cc;
@@ -18,18 +19,25 @@
   --border: rgba(244, 244, 246, 0.12);
   --nav: rgba(11, 11, 15, 0.55);
   --chip: rgba(244, 244, 246, 0.07);
+  --glass-shadow: none;
+  --accent-contrast: #140906;
 }
 
 [data-theme='light'] {
+  --accent: #d9431f;
+  --accent-hover: #b83618;
+  --accent-soft: rgba(217, 67, 31, 0.12);
   --bg: #eef0f2;
   --text: #0f0f12;
-  --text-2: #3f3f47;
-  --muted: #6f6f78;
-  --card: rgba(255, 255, 255, 0.86);
+  --text-2: #35353d;
+  --muted: #565660;
+  --card: rgba(255, 255, 255, 0.92);
   --card-solid: #ffffff;
-  --border: rgba(15, 15, 18, 0.14);
-  --nav: rgba(255, 255, 255, 0.65);
-  --chip: rgba(15, 15, 18, 0.06);
+  --border: rgba(15, 15, 18, 0.24);
+  --nav: rgba(255, 255, 255, 0.75);
+  --chip: rgba(15, 15, 18, 0.08);
+  --glass-shadow: 0 10px 30px rgba(15, 15, 18, 0.1);
+  --accent-contrast: #ffffff;
 }
 
 * {
@@ -54,7 +62,7 @@ body {
 
 ::selection {
   background: var(--accent);
-  color: #0b0b0f;
+  color: var(--accent-contrast);
 }
 
 :focus-visible {
@@ -180,6 +188,7 @@ main textarea,
   border-radius: var(--radius);
   backdrop-filter: blur(16px) saturate(1.15);
   -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  box-shadow: var(--glass-shadow);
   padding: 1.6rem 1.8rem;
 }
 
@@ -388,12 +397,12 @@ main textarea,
 .btn-accent {
   background: var(--accent);
   border-color: var(--accent);
-  color: #140906;
+  color: var(--accent-contrast);
 }
 
 .btn-accent:hover {
-  color: #140906;
-  background: #ff8266;
+  color: var(--accent-contrast);
+  background: var(--accent-hover);
 }
 
 .btn svg {
