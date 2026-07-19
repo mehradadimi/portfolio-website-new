@@ -21,7 +21,7 @@ export function Navbar() {
           scrollToSection('home')
         }}
       >
-        Mehrad<em>.</em>Adimi
+        Mehrad Adimi
       </a>
       <div className="nav-links">
         {SECTIONS.map((id) => (
