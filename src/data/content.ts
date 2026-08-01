@@ -1,6 +1,6 @@
-import uvicImg from '../assets/projects/uvic-scheduler.png'
+import hiveImg from '../assets/projects/hive.png'
+import codebaseMasterImg from '../assets/projects/codebase-master.png'
 import nutridineImg from '../assets/projects/nutridine.png'
-import passedwordsImg from '../assets/projects/passedwords.jpg'
 import seqbioImg from '../assets/projects/seq-bio.png'
 
 export const OWNER = {
@@ -104,13 +104,23 @@ export interface Project {
 
 export const PROJECTS: Project[] = [
   {
-    name: 'UVic Scheduler',
-    subtitle: 'Course scheduling web app · University of Victoria',
-    period: 'May 2023 — Sep 2023',
+    name: 'Hive',
+    subtitle: 'NFC digital business cards',
+    period: 'Jan 2026 — Present',
     description:
-      'Key front-end developer on a course scheduling tool. React + TypeScript front-end with a Django back-end, CI/CD through GitHub Actions, deployed via GitHub Pages.',
-    tech: ['React', 'TypeScript', 'Django', 'GitHub Actions'],
-    image: uvicImg,
+      'Tap a physical NFC card, share your profile instantly. A mobile-first PWA with five card templates, follow-up emails, lifetime analytics, Apple Wallet passes, and Stripe-powered card sales and subscriptions.',
+    tech: ['Next.js', 'React 19', 'TypeScript', 'Supabase', 'Drizzle', 'Stripe', 'Fly.io'],
+    link: 'https://hive.fly.dev',
+    image: hiveImg,
+  },
+  {
+    name: 'Codebase Master',
+    subtitle: 'Retrieval + graph MCP stack',
+    period: 'Dec 2025',
+    description:
+      'Ingests any codebase, JIRA project, and Confluence space into a unified vector + Neo4j graph store, exposed over MCP — so AI assistants can trace Issue ↔ PR ↔ Commit ↔ File ↔ Symbol and answer "which issues touch this file?"',
+    tech: ['Python', 'TypeScript', 'Neo4j', 'Postgres', 'OpenAI embeddings', 'MCP', 'Docker'],
+    image: codebaseMasterImg,
   },
   {
     name: 'NutriDine',
@@ -121,16 +131,6 @@ export const PROJECTS: Project[] = [
     tech: ['React', 'TypeScript', 'Firebase', 'NutritionX API'],
     link: 'https://nutridine.netlify.app',
     image: nutridineImg,
-  },
-  {
-    name: 'PassedWords',
-    subtitle: 'Mobile password manager',
-    period: 'Oct 2024 — Present',
-    description:
-      'Secure password manager in React Native (Expo) with AES-256 encryption via CryptoES, Ethereum blockchain storage through Web3 & ethers.js, and Firebase Auth + Firestore.',
-    tech: ['React Native', 'Expo', 'CryptoES', 'ethers.js', 'Firebase'],
-    link: 'https://github.com/mehradadimi/PassedWords/',
-    image: passedwordsImg,
   },
   {
     name: 'SEQ-Bio',
