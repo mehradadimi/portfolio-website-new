@@ -5,11 +5,12 @@ import { useTexture, RoundedBox, Float } from '@react-three/drei'
 import { PROJECTS } from '../data/content'
 import { scrollState, sectionFloat } from '../state/scrollState'
 
+// two panels either side of the centered content column, angled toward camera
 const SLOTS: Array<{ pos: [number, number, number]; rot: number }> = [
-  { pos: [-4.6, 2.9, 1.4], rot: -0.35 },
-  { pos: [-3.9, 1.2, 0.6], rot: -0.45 },
-  { pos: [-4.9, 2.2, -1.2], rot: -0.3 },
-  { pos: [-4.1, 0.9, -2.2], rot: -0.4 },
+  { pos: [-4.9, 2.7, 0.6], rot: 0.42 },
+  { pos: [-4.3, 1.0, -0.8], rot: 0.38 },
+  { pos: [4.3, 2.6, -0.8], rot: -0.38 },
+  { pos: [4.9, 1.0, 0.6], rot: -0.42 },
 ]
 
 // Floating glass screens beside the desk, visible around the projects section.

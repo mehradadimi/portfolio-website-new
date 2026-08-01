@@ -7,9 +7,9 @@ import { prefersReducedMotion } from '../scroll/scrollManager'
 // One camera waypoint per DOM section, in section order.
 const WAYPOINTS: Array<{ pos: THREE.Vector3; look: THREE.Vector3 }> = [
   { pos: new THREE.Vector3(0, 2.5, 8.6), look: new THREE.Vector3(-2.0, 0.9, -0.2) }, // home — desk on the right, text left
-  { pos: new THREE.Vector3(1.9, 4.7, 4.3), look: new THREE.Vector3(1.5, -0.6, 0.9) }, // skills — keyboard on the left, cards right
-  { pos: new THREE.Vector3(2.6, 2.0, 3.8), look: new THREE.Vector3(-1.7, 1.5, -1.4) }, // experience — monitor on the right, cards left
-  { pos: new THREE.Vector3(-2.2, 2.3, 7.8), look: new THREE.Vector3(-5.8, 1.9, -1.2) }, // projects — panels center-left, desk out of frame
+  { pos: new THREE.Vector3(0, 4.6, 4.1), look: new THREE.Vector3(0, -0.7, 0.9) }, // skills — centered fly-over of the keyboard
+  { pos: new THREE.Vector3(0, 2.1, 5.8), look: new THREE.Vector3(0, 2.5, -1.4) }, // experience — monitor centered, below the heading
+  { pos: new THREE.Vector3(0, 2.2, 9.5), look: new THREE.Vector3(0, 1.6, -0.5) }, // projects — panels flank both sides
   { pos: new THREE.Vector3(0, 3.0, 12.6), look: new THREE.Vector3(0, 3.9, 0) }, // contact — island low, text above
 ]
 
