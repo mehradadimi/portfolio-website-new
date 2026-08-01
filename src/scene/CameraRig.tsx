@@ -8,7 +8,7 @@ import { prefersReducedMotion } from '../scroll/scrollManager'
 const WAYPOINTS: Array<{ pos: THREE.Vector3; look: THREE.Vector3 }> = [
   { pos: new THREE.Vector3(0, 2.5, 8.6), look: new THREE.Vector3(-2.0, 0.9, -0.2) }, // home — desk on the right, text left
   { pos: new THREE.Vector3(0, 4.6, 4.1), look: new THREE.Vector3(0, -0.7, 0.9) }, // skills — centered fly-over of the keyboard
-  { pos: new THREE.Vector3(0, 2.1, 5.8), look: new THREE.Vector3(0, 2.5, -1.4) }, // experience — monitor centered, below the heading
+  { pos: new THREE.Vector3(0, 2.2, 6.2), look: new THREE.Vector3(0, 2.9, -1.4) }, // experience — monitor centered, below the heading
   { pos: new THREE.Vector3(0, 2.2, 9.5), look: new THREE.Vector3(0, 1.6, -0.5) }, // projects — panels flank both sides
   { pos: new THREE.Vector3(0, 3.0, 12.6), look: new THREE.Vector3(0, 3.9, 0) }, // contact — island low, text above
 ]

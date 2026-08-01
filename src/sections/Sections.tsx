@@ -1,6 +1,10 @@
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
 import { EXPERIENCE, OWNER, PROJECTS, SKILLS } from '../data/content'
 import { perfTier } from '../hooks/perf'
+import { prefersReducedMotion } from '../scroll/scrollManager'
 import { CheckIcon, CopyIcon, ExternalIcon, GithubIcon, LinkedinIcon, MailIcon } from '../components/Icons'
 
 export function Hero() {
@@ -52,17 +56,132 @@ export function Skills() {
   )
 }
 
+const COMMIT_HASHES = EXPERIENCE.map((_, i) => (0xd9e86e0 + i * 0x1f).toString(16).slice(0, 7))
+
 export function Experience() {
+  const listRef = useRef<HTMLDivElement>(null)
+  const svgRef = useRef<SVGSVGElement>(null)
+
+  // The "career tree": a trunk that draws itself with scroll, sprouting a
+  // branch + commit node + card per job.
+  useGSAP(
+    () => {
+      const list = listRef.current
+      const svg = svgRef.current
+      if (!list || !svg) return
+      const trunk = svg.querySelector<SVGPathElement>('.tree-trunk')!
+      const branches = Array.from(svg.querySelectorAll<SVGPathElement>('.tree-branch'))
+      const nodes = Array.from(svg.querySelectorAll<SVGGElement>('.tree-node'))
+      const inners = Array.from(svg.querySelectorAll<SVGGElement>('.tree-node-inner'))
+      const cards = Array.from(list.querySelectorAll<HTMLElement>('.xp-item'))
+      const reduced = prefersReducedMotion()
+
+      const build = () => {
+        const W = list.clientWidth
+        const H = list.clientHeight
+        svg.setAttribute('viewBox', `0 0 ${W} ${H}`)
+        const mobile = window.innerWidth < 880
+        const cx = mobile ? 14 : W / 2
+        const amp = mobile ? 6 : 20
+        trunk.setAttribute(
+          'd',
+          `M ${cx} 0 C ${cx - amp} ${H * 0.18} ${cx + amp} ${H * 0.32} ${cx} ${H * 0.5} C ${cx - amp} ${H * 0.68} ${cx + amp} ${H * 0.82} ${cx} ${H}`,
+        )
+        const trunkLen = trunk.getTotalLength()
+        gsap.set(trunk, { strokeDasharray: trunkLen, strokeDashoffset: reduced ? 0 : trunkLen })
+
+        cards.forEach((card, i) => {
+          const y = card.offsetTop + 30
+          // nearest point on the curved trunk to this card's anchor height
+          let pt = { x: cx, y }
+          let best = Infinity
+          for (let s = 0; s <= 80; s++) {
+            const p = trunk.getPointAtLength((trunkLen * s) / 80)
+            const d = Math.abs(p.y - y)
+            if (d < best) {
+              best = d
+              pt = { x: p.x, y: p.y }
+            }
+          }
+          // nth-child parity counts the svg as the first child, so card 0 sits right
+          const left = !mobile && i % 2 === 1
+          const bx = mobile
+            ? card.offsetLeft - 6
+            : left
+              ? card.offsetLeft + card.offsetWidth + 6
+              : card.offsetLeft - 6
+          branches[i]?.setAttribute('d', `M ${pt.x} ${pt.y} Q ${(pt.x + bx) / 2} ${pt.y - 16} ${bx} ${y}`)
+          const bLen = branches[i]?.getTotalLength() ?? 0
+          if (branches[i]) {
+            gsap.set(branches[i], { strokeDasharray: bLen, strokeDashoffset: reduced ? 0 : bLen })
+          }
+          nodes[i]?.setAttribute('transform', `translate(${pt.x} ${pt.y})`)
+          const label = nodes[i]?.querySelector('text')
+          if (label) {
+            const labelLeft = mobile ? false : !left // hash sits opposite the card
+            label.setAttribute('x', labelLeft ? '-16' : '16')
+            label.setAttribute('text-anchor', labelLeft ? 'end' : 'start')
+          }
+        })
+
+        if (!reduced) {
+          gsap.set(inners, { scale: 0, transformOrigin: '0 0' })
+          gsap.set(cards, { opacity: 0, y: 26 })
+        }
+      }
+
+      build()
+      ScrollTrigger.addEventListener('refresh', build)
+
+      if (!reduced) {
+        gsap.to(trunk, {
+          strokeDashoffset: 0,
+          ease: 'none',
+          scrollTrigger: { trigger: list, start: 'top 78%', end: 'bottom 65%', scrub: 0.6 },
+        })
+        cards.forEach((card, i) => {
+          const tl = gsap.timeline({
+            scrollTrigger: { trigger: card, start: 'top 82%', toggleActions: 'play none none reverse' },
+          })
+          if (branches[i]) tl.to(branches[i], { strokeDashoffset: 0, duration: 0.45, ease: 'power2.out' })
+          if (inners[i]) tl.to(inners[i], { scale: 1, duration: 0.35, ease: 'back.out(2.5)' }, '-=0.15')
+          tl.to(card, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.2')
+        })
+      }
+
+      return () => ScrollTrigger.removeEventListener('refresh', build)
+    },
+    { scope: listRef },
+  )
+
   return (
     <section id="experience" className="section section-experience">
       <div className="section-inner">
         <h2 className="section-heading" data-reveal>{'// experience'}</h2>
         <p className="xp-sub" data-reveal>
-          A timeline of where I've built, broken, and shipped things.
+          A timeline of where I've built, broken, and shipped things — one branch at a time.
         </p>
-        <div className="xp-list">
+        <div className="xp-list" ref={listRef}>
+          <svg ref={svgRef} className="tree-svg" aria-hidden="true">
+            <path className="tree-trunk" />
+            {EXPERIENCE.map((_, i) => (
+              <path key={`b${i}`} className="tree-branch" />
+            ))}
+            {EXPERIENCE.map((_, i) => (
+              <g key={`n${i}`} className="tree-node">
+                <g className="tree-node-inner">
+                  <circle className="tree-ring" r="9" />
+                  <circle className="tree-dot" r="4.5" />
+                  <polygon className="tree-leaf" points="0,-19 7,-9 -4,-8" />
+                  <text className="tree-hash" y="4">
+                    {COMMIT_HASHES[i]}
+                  </text>
+                </g>
+              </g>
+            ))}
+          </svg>
           {EXPERIENCE.map((job) => (
-            <div key={job.role + job.period} className="glass xp-card" data-reveal>
+            <div key={job.role + job.period} className="glass xp-card xp-item">
               <h3>
                 {job.role} <span>@ {job.company}</span>
               </h3>

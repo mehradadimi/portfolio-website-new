@@ -228,7 +228,7 @@ main textarea,
 
 /* ---------- experience ---------- */
 .section-experience .section-inner {
-  max-width: 760px;
+  max-width: 1020px;
 }
 
 .xp-sub {
@@ -238,8 +238,66 @@ main textarea,
 }
 
 .xp-list {
+  position: relative;
   display: grid;
-  gap: 1.1rem;
+  gap: 2.6rem;
+}
+
+.xp-item {
+  position: relative;
+  z-index: 1;
+  width: calc(50% - 52px);
+}
+
+.xp-item:nth-child(odd) {
+  margin-right: auto;
+}
+
+.xp-item:nth-child(even) {
+  margin-left: auto;
+}
+
+.tree-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.tree-trunk,
+.tree-branch {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.tree-trunk {
+  stroke-width: 2.5;
+}
+
+.tree-ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  opacity: 0.45;
+}
+
+.tree-dot {
+  fill: var(--accent);
+}
+
+.tree-leaf {
+  fill: var(--accent);
+  opacity: 0.8;
+}
+
+.tree-hash {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--muted);
 }
 
 .xp-card h3 {
@@ -586,6 +644,18 @@ main textarea,
 
   .projects-grid {
     grid-template-columns: 1fr;
+  }
+
+  .xp-item,
+  .xp-item:nth-child(odd),
+  .xp-item:nth-child(even) {
+    width: calc(100% - 40px);
+    margin-left: 40px;
+    margin-right: 0;
+  }
+
+  .tree-hash {
+    display: none;
   }
 }
 
