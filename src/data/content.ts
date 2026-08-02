@@ -1,7 +1,7 @@
 import hiveImg from '../assets/projects/hive.png'
 import codebaseMasterImg from '../assets/projects/codebase-master.png'
+import meetingVaultImg from '../assets/projects/meeting-vault.png'
 import nutridineImg from '../assets/projects/nutridine.png'
-import seqbioImg from '../assets/projects/seq-bio.png'
 
 export const OWNER = {
   name: 'Mehrad Adimi',
@@ -123,6 +123,15 @@ export const PROJECTS: Project[] = [
     image: codebaseMasterImg,
   },
   {
+    name: 'Meeting Vault',
+    subtitle: '100% local meeting intelligence · macOS',
+    period: 'Mar 2026 — Present',
+    description:
+      'Records meeting audio with ScreenCaptureKit, transcribes on-device via whisper.cpp, separates speakers, and has a local Ollama LLM extract decisions and action items into a SQLite-backed knowledge graph with RAG search. No network, one binary, all local.',
+    tech: ['Tauri', 'Rust', 'React 19', 'whisper.cpp', 'Ollama', 'SQLite', 'ScreenCaptureKit'],
+    image: meetingVaultImg,
+  },
+  {
     name: 'NutriDine',
     subtitle: 'Progressive web app',
     period: 'Dec 2023 — Present',
@@ -131,15 +140,6 @@ export const PROJECTS: Project[] = [
     tech: ['React', 'TypeScript', 'Firebase', 'NutritionX API'],
     link: 'https://nutridine.netlify.app',
     image: nutridineImg,
-  },
-  {
-    name: 'SEQ-Bio',
-    subtitle: 'Rust bioinformatics toolkit',
-    period: 'Sep 2023 — Dec 2023',
-    description:
-      'Contributor to rust-bio-seq: string matching (BNDM, BOM), sequence alignment, suffix trees (PSSM, Ukkonen), bit trees, wavelet matrices, and hidden Markov models.',
-    tech: ['Rust', 'Bioinformatics', 'Algorithms'],
-    image: seqbioImg,
   },
 ]
 
