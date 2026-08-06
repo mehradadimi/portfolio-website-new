@@ -37,10 +37,11 @@ export function CameraRig() {
   const screenZoom = useStore((s) => s.screenZoom)
   const [orbitReady, setOrbitReady] = useState(false)
 
-  // every time the visitor sits down, fly in before giving them the controls
+  // fly (back) to the 3/4 entry view whenever the visitor sits down or
+  // leans back from the screen — orbit controls only take over once there
   useEffect(() => {
-    if (mode === 'interactive') setOrbitReady(false)
-  }, [mode])
+    if (mode === 'interactive' && !screenZoom) setOrbitReady(false)
+  }, [mode, screenZoom])
 
   useFrame(({ camera, pointer, size }, delta) => {
     const { mode: m, screenZoom: zoom } = useStore.getState()
