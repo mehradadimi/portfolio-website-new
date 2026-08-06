@@ -37,12 +37,19 @@ export function ModeChooser() {
 export function ExitChip() {
   const mode = useStore((s) => s.mode)
   const screenZoom = useStore((s) => s.screenZoom)
+  const setScreenZoom = useStore((s) => s.setScreenZoom)
   const setMode = useStore((s) => s.setMode)
 
   if (mode !== 'interactive') return null
 
   return (
-    <button className="exit-chip" onClick={() => setMode('normal')}>
+    <button
+      className="exit-chip"
+      onClick={() => {
+        if (screenZoom) setScreenZoom(false)
+        else setMode('normal')
+      }}
+    >
       {screenZoom ? 'esc · lean back' : 'esc · leave the desk'}
     </button>
   )
