@@ -101,21 +101,28 @@ const DIRS: Record<string, string[]> = {
   skills: SKILLS.map((g) => g.label.toLowerCase()),
 }
 
-/** Normalize a user path: strip ./ ~/ and trailing slash, apply cwd for bare names. */
-function normalize(arg: string): string {
-  let p = arg.replace(/^\.\//, '').replace(/^~\//, '').replace(/\/$/, '')
-  if (p === '~' || p === '') return ''
-  if (p === '..') return ''
-  if (!p.includes('/') && cwd) p = `${cwd}/${p}`
+/** Strip ./ ~/ and trailing slash. Returns the cleaned path, cwd NOT applied. */
+function clean(arg: string): string {
+  const p = arg.replace(/^\.\//, '').replace(/^~\//, '').replace(/\/$/, '')
+  if (p === '~' || p === '..') return ''
   return p
+}
+
+/** Resolve a directory: try as typed (from home), then relative to cwd. */
+function resolveDir(arg: string): string | null {
+  const p = clean(arg)
+  if (p in DIRS) return p
+  if (cwd && `${cwd}/${p}` in DIRS) return `${cwd}/${p}`
+  return null
 }
 
 /** Find a real file for what the user typed — forgiving about dirs and extensions. */
 function resolveFile(arg: string): string | null {
-  const base = normalize(arg)
-  const candidates = [base, `${base}.txt`, `${base}.md`]
+  const p = clean(arg)
+  const candidates = [p, `${p}.txt`, `${p}.md`]
+  if (cwd) candidates.push(`${cwd}/${p}`, `${cwd}/${p}.txt`, `${cwd}/${p}.md`)
   // also look everywhere if they typed a bare or wrong-dir name
-  const name = base.split('/').pop()!
+  const name = p.split('/').pop()!
   for (const dir of ['', 'projects/', 'skills/']) {
     candidates.push(`${dir}${name}`, `${dir}${name}.txt`, `${dir}${name}.md`)
   }
@@ -124,6 +131,56 @@ function resolveFile(arg: string): string | null {
     if (FILES[c]) return c
   }
   return null
+}
+
+// ---------- tab completion ----------
+
+const COMMAND_NAMES = ['help', 'ls', 'cd', 'cat', 'open', 'neofetch', 'whoami', 'pwd', 'clear', 'theme', 'sudo', 'exit']
+
+/** Candidate strings for completing a path token. */
+function pathPool(token: string): string[] {
+  const slash = token.lastIndexOf('/')
+  if (slash >= 0) {
+    // completing inside an explicit directory: "projects/me…"
+    const dirPart = token.slice(0, slash)
+    const dir = resolveDir(dirPart)
+    if (dir === null && clean(dirPart) !== '') return []
+    const entries = DIRS[dir ?? ''] ?? []
+    return entries.map((e) => `${dirPart}/${e}`)
+  }
+  const pool = [...(DIRS[cwd] ?? [])]
+  if (cwd) pool.push(...DIRS[''])
+  return pool
+}
+
+function completeTab(): void {
+  const before = input.slice(0, cursor)
+  const tokenStart = Math.max(before.lastIndexOf(' ') + 1, 0)
+  const token = before.slice(tokenStart)
+  const isCommand = tokenStart === 0
+  const pool = isCommand ? COMMAND_NAMES : pathPool(token)
+  const matches = [...new Set(pool)].filter((c) => c.startsWith(token))
+  if (matches.length === 0) return
+  let completed: string
+  if (matches.length === 1) {
+    completed = matches[0]
+    if (isCommand || !completed.endsWith('/')) completed += ' '
+  } else {
+    // longest common prefix; if we can't extend, list the options
+    let prefix = matches[0]
+    for (const m of matches) {
+      while (!m.startsWith(prefix)) prefix = prefix.slice(0, -1)
+    }
+    if (prefix.length <= token.length) {
+      push(`${getPrompt()} ${input}`, 'in')
+      push(matches.join('   '), 'dim')
+      notify()
+      return
+    }
+    completed = prefix
+  }
+  input = input.slice(0, tokenStart) + completed + input.slice(cursor)
+  cursor = tokenStart + completed.length
 }
 
 // ---------- commands ----------
@@ -146,15 +203,15 @@ function exec(raw: string) {
       push('  exit            leave my desk, back to the site')
       break
     case 'ls': {
-      const dir = arg ? normalize(arg) : cwd
-      const entries = DIRS[dir]
+      const dir = arg ? resolveDir(arg) : cwd
+      const entries = dir !== null ? DIRS[dir] : undefined
       if (entries) entries.forEach((e) => push(e))
       else push(`ls: ${arg}: no such directory`, 'dim')
       break
     }
     case 'cd': {
-      const dir = normalize(arg)
-      if (dir in DIRS) {
+      const dir = resolveDir(arg)
+      if (dir !== null) {
         cwd = dir
       } else if (resolveFile(arg)) {
         push(`cd: ${arg}: not a directory`, 'dim')
@@ -246,6 +303,11 @@ function exec(raw: string) {
 }
 
 export function termKey(key: string, _code: string): void {
+  if (key === 'Tab') {
+    completeTab()
+    notify()
+    return
+  }
   if (key.length === 1) {
     input = input.slice(0, cursor) + key + input.slice(cursor)
     cursor++
