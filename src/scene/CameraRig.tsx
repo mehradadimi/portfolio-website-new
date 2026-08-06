@@ -18,7 +18,12 @@ const smoothstep = (t: number) => t * t * (3 - 2 * t)
 
 // interactive-mode POVs: over Mehrad's shoulder, and zoomed onto the screen
 const POV_DESK = { pos: new THREE.Vector3(1.5, 3.05, 5.2), look: new THREE.Vector3(-0.1, 1.6, -1.4) }
-const POV_SCREEN = { pos: new THREE.Vector3(0, 1.97, 1.8), look: new THREE.Vector3(0, 1.94, -1.45) }
+const SCREEN_LOOK = new THREE.Vector3(0, 1.94, -1.45)
+// monitor screen: 3.68 × 2.3 world units at z ≈ -1.33
+const SCREEN_W = 3.68
+const SCREEN_H = 2.3
+const SCREEN_Z = -1.33
+const SCREEN_MARGIN = 1.12
 
 export function CameraRig() {
   const reduced = useMemo(prefersReducedMotion, [])
@@ -29,15 +34,29 @@ export function CameraRig() {
   useFrame(({ camera, pointer, size }, delta) => {
     const { mode, screenZoom } = useStore.getState()
     if (mode === 'interactive') {
-      const pov = screenZoom ? POV_SCREEN : POV_DESK
-      desired.current.copy(pov.pos)
-      if (!reduced && !screenZoom) {
-        desired.current.x += pointer.x * 0.18
-        desired.current.y += pointer.y * 0.1
+      let lookTarget = POV_DESK.look
+      if (screenZoom) {
+        // back the camera off just far enough that the whole screen fits
+        // this viewport, whatever its aspect ratio
+        const persp = camera as THREE.PerspectiveCamera
+        const tanHalf = Math.tan(THREE.MathUtils.degToRad(persp.fov) / 2)
+        const aspect = size.width / size.height
+        const dist = Math.max(
+          (SCREEN_H * SCREEN_MARGIN) / (2 * tanHalf),
+          (SCREEN_W * SCREEN_MARGIN) / (2 * tanHalf * aspect),
+        )
+        desired.current.set(0, 1.94, SCREEN_Z + dist)
+        lookTarget = SCREEN_LOOK
+      } else {
+        desired.current.copy(POV_DESK.pos)
+        if (!reduced) {
+          desired.current.x += pointer.x * 0.18
+          desired.current.y += pointer.y * 0.1
+        }
       }
       const ki = reduced ? 1 : 1 - Math.exp(-delta * 3.5)
       camera.position.lerp(desired.current, ki)
-      look.current.lerp(pov.look, ki)
+      look.current.lerp(lookTarget, ki)
       camera.lookAt(look.current)
       return
     }

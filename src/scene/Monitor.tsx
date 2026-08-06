@@ -5,7 +5,7 @@ import { RoundedBox } from '@react-three/drei'
 import { EXPERIENCE, OWNER, PROJECTS, SKILLS, type SectionId } from '../data/content'
 import { onBuffer } from '../state/keybus'
 import { useStore } from '../state/store'
-import { onTerm, termState, TERM_PROMPT } from '../interactive/terminal'
+import { onTerm, termState, getPrompt } from '../interactive/terminal'
 
 const W = 1024
 const H = 640
@@ -110,7 +110,7 @@ export function Monitor(props: { position?: [number, number, number] }) {
     if (useStore.getState().mode === 'interactive') {
       // live shell
       ctx.font = '24px "PT Mono", monospace'
-      const { lines, input } = termState()
+      const { lines, input, cursor } = termState()
       const visible = lines.slice(-15)
       let y = 48
       for (const line of visible) {
@@ -120,7 +120,10 @@ export function Monitor(props: { position?: [number, number, number] }) {
         y += 36
       }
       ctx.fillStyle = '#ff6b4a'
-      const tail = `${TERM_PROMPT} ${input}${s.blink ? '▌' : ' '}`
+      // block cursor that sits mid-line when editing with ←/→
+      const cursorChar = s.blink ? '▌' : (input[cursor] ?? ' ')
+      const shown = input.slice(0, cursor) + cursorChar + input.slice(cursor + 1)
+      const tail = `${getPrompt()} ${shown}`
       ctx.fillText(tail.slice(-64), 32, y)
     } else {
       ctx.font = '26px "PT Mono", monospace'

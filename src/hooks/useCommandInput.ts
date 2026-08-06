@@ -65,7 +65,9 @@ export function useCommandInput(onFlash: (msg: string) => void): void {
           else setMode('normal')
           return
         }
-        if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'ArrowDown') e.preventDefault()
+        if ([' ', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) {
+          e.preventDefault()
+        }
         termKey(e.key, e.code)
         return
       }
