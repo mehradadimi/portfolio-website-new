@@ -137,6 +137,10 @@ export function Monitor(props: { position?: [number, number, number] }) {
       ctx.fillStyle = '#ff6b4a'
       const tail = `${PROMPT} ${s.buffer}${s.blink ? '▌' : ' '}`
       ctx.fillText(tail.slice(0, 62), 36, H - 44)
+      // in classic mode the screen is set dressing — dim it so it never
+      // competes with the DOM content in front of it
+      ctx.fillStyle = 'rgba(10, 10, 14, 0.45)'
+      ctx.fillRect(0, 0, W, H)
     }
     texture.needsUpdate = true
   })
