@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { Navbar } from './components/Navbar'
+import { ModeChooser, ExitChip } from './components/ModeChooser'
 import { CommandHUD, type Flash } from './components/CommandHUD'
 import { Hero, Skills, Experience, Projects, Contact } from './sections/Sections'
 import { useCommandInput } from './hooks/useCommandInput'
@@ -13,6 +14,7 @@ import {
   destroyScroll,
   initScroll,
   measureSectionStops,
+  pauseScroll,
   prefersReducedMotion,
 } from './scroll/scrollManager'
 
@@ -30,11 +32,19 @@ export default function App() {
   const onFlash = useCallback((msg: string) => setFlash({ msg, id: Date.now() }), [])
   useCommandInput(onFlash)
 
+  const mode = useStore((s) => s.mode)
+
   // Let the DOM paint first (LCP), then mount the WebGL canvas.
   useEffect(() => {
     const id = window.setTimeout(() => setCanvasReady(true), 120)
     return () => window.clearTimeout(id)
   }, [])
+
+  // Interactive mode owns the page: no scrolling, no DOM sections.
+  useEffect(() => {
+    pauseScroll(mode === 'interactive')
+    return () => pauseScroll(false)
+  }, [mode])
 
   useGSAP(
     () => {
@@ -82,7 +92,7 @@ export default function App() {
   )
 
   return (
-    <div ref={rootRef}>
+    <div ref={rootRef} className={mode === 'interactive' ? 'interactive' : ''}>
       {canvasReady ? (
         <Suspense fallback={<Poster />}>
           <SceneCanvas />
@@ -99,6 +109,8 @@ export default function App() {
         <Contact />
       </main>
       <CommandHUD flash={flash} />
+      <ExitChip />
+      <ModeChooser />
     </div>
   )
 }

@@ -626,6 +626,127 @@ main textarea,
   color: var(--accent);
 }
 
+/* ---------- interactive mode ---------- */
+html.no-scroll {
+  overflow: hidden;
+}
+
+.interactive main,
+.interactive .navbar,
+.interactive .hud {
+  display: none;
+}
+
+.nav-desk {
+  color: var(--accent) !important;
+}
+
+.chooser {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 2rem;
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  backdrop-filter: blur(18px) saturate(1.1);
+  -webkit-backdrop-filter: blur(18px) saturate(1.1);
+}
+
+.chooser-kicker {
+  font-family: var(--font-mono);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.chooser-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+}
+
+.chooser-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  max-width: 760px;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.chooser-card {
+  text-align: left;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.6rem 1.7rem;
+  cursor: pointer;
+  color: var(--text);
+  font-family: var(--font-body);
+  box-shadow: var(--glass-shadow);
+  transition: border-color 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+}
+
+.chooser-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.chooser-card h3 {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+
+.chooser-card p {
+  color: var(--text-2);
+  font-size: 0.92rem;
+  margin-bottom: 0.9rem;
+}
+
+.chooser-hint {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.chooser-card-accent .chooser-hint {
+  color: var(--accent);
+}
+
+.chooser-fine {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.exit-chip {
+  position: fixed;
+  z-index: 110;
+  top: 1.2rem;
+  right: 1.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.55rem 1.1rem;
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: border-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
+}
+
+.exit-chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 /* ---------- responsive ---------- */
 @media (max-width: 880px) {
   .nav-links {

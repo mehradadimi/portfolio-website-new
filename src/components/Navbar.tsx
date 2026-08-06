@@ -1,6 +1,7 @@
 import { SECTIONS } from '../data/content'
 import { useStore } from '../state/store'
 import { scrollToSection } from '../scroll/scrollManager'
+import { resetTerm } from '../interactive/terminal'
 import { MoonIcon, SoundOffIcon, SoundOnIcon, SunIcon } from './Icons'
 import { thock } from '../audio/thock'
 
@@ -10,6 +11,7 @@ export function Navbar() {
   const active = useStore((s) => s.activeSection)
   const toggleTheme = useStore((s) => s.toggleTheme)
   const toggleMuted = useStore((s) => s.toggleMuted)
+  const setMode = useStore((s) => s.setMode)
 
   return (
     <nav className="navbar">
@@ -30,6 +32,15 @@ export function Navbar() {
             {id === 'contact' ? 'contact me' : id}
           </button>
         ))}
+        <button
+          className="nav-desk"
+          onClick={() => {
+            resetTerm()
+            setMode('interactive')
+          }}
+        >
+          {'// sit at my desk'}
+        </button>
       </div>
       <div className="nav-actions">
         <button

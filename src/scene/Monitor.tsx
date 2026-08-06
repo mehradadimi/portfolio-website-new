@@ -5,6 +5,7 @@ import { RoundedBox } from '@react-three/drei'
 import { EXPERIENCE, OWNER, PROJECTS, SKILLS, type SectionId } from '../data/content'
 import { onBuffer } from '../state/keybus'
 import { useStore } from '../state/store'
+import { onTerm, termState, TERM_PROMPT } from '../interactive/terminal'
 
 const W = 1024
 const H = 640
@@ -54,6 +55,8 @@ function linesFor(section: SectionId): Array<[string, 'prompt' | 'out' | 'dim']>
 export function Monitor(props: { position?: [number, number, number] }) {
   const theme = useStore((s) => s.theme)
   const section = useStore((s) => s.activeSection)
+  const mode = useStore((s) => s.mode)
+  const setScreenZoom = useStore((s) => s.setScreenZoom)
 
   const { ctx, texture } = useMemo(() => {
     const canvas = document.createElement('canvas')
@@ -77,9 +80,17 @@ export function Monitor(props: { position?: [number, number, number] }) {
     [],
   )
 
+  useEffect(
+    () =>
+      onTerm(() => {
+        state.current.dirty = true
+      }),
+    [],
+  )
+
   useEffect(() => {
     state.current.dirty = true
-  }, [section])
+  }, [section, mode])
 
   useEffect(() => () => texture.dispose(), [texture])
 
@@ -95,17 +106,35 @@ export function Monitor(props: { position?: [number, number, number] }) {
 
     ctx.fillStyle = '#0a0a0e'
     ctx.fillRect(0, 0, W, H)
-    ctx.font = '26px "PT Mono", monospace'
-    const lines = linesFor(section)
-    let y = 56
-    for (const [text, kind] of lines) {
-      ctx.fillStyle = kind === 'prompt' ? '#ff6b4a' : kind === 'dim' ? '#6f6f78' : '#d8d8e0'
-      ctx.fillText(text.slice(0, 62), 36, y)
-      y += 40
+
+    if (useStore.getState().mode === 'interactive') {
+      // live shell
+      ctx.font = '24px "PT Mono", monospace'
+      const { lines, input } = termState()
+      const visible = lines.slice(-15)
+      let y = 48
+      for (const line of visible) {
+        ctx.fillStyle =
+          line.kind === 'in' || line.kind === 'accent' ? '#ff6b4a' : line.kind === 'dim' ? '#6f6f78' : '#d8d8e0'
+        ctx.fillText(line.text.slice(0, 64), 32, y)
+        y += 36
+      }
+      ctx.fillStyle = '#ff6b4a'
+      const tail = `${TERM_PROMPT} ${input}${s.blink ? '▌' : ' '}`
+      ctx.fillText(tail.slice(-64), 32, y)
+    } else {
+      ctx.font = '26px "PT Mono", monospace'
+      const lines = linesFor(section)
+      let y = 56
+      for (const [text, kind] of lines) {
+        ctx.fillStyle = kind === 'prompt' ? '#ff6b4a' : kind === 'dim' ? '#6f6f78' : '#d8d8e0'
+        ctx.fillText(text.slice(0, 62), 36, y)
+        y += 40
+      }
+      ctx.fillStyle = '#ff6b4a'
+      const tail = `${PROMPT} ${s.buffer}${s.blink ? '▌' : ' '}`
+      ctx.fillText(tail.slice(0, 62), 36, H - 44)
     }
-    ctx.fillStyle = '#ff6b4a'
-    const tail = `${PROMPT} ${s.buffer}${s.blink ? '▌' : ' '}`
-    ctx.fillText(tail.slice(0, 62), 36, H - 44)
     texture.needsUpdate = true
   })
 
@@ -124,7 +153,22 @@ export function Monitor(props: { position?: [number, number, number] }) {
       <RoundedBox args={[3.95, 2.55, 0.14]} radius={0.05} smoothness={2} position={[0, 1.95, 0]}>
         <meshStandardMaterial color={theme === 'dark' ? '#16161c' : '#2b2b34'} flatShading />
       </RoundedBox>
-      <mesh position={[0, 1.95, 0.075]}>
+      <mesh
+        position={[0, 1.95, 0.075]}
+        onClick={(e) => {
+          if (useStore.getState().mode !== 'interactive') return
+          e.stopPropagation()
+          setScreenZoom(!useStore.getState().screenZoom)
+        }}
+        onPointerOver={(e) => {
+          if (useStore.getState().mode !== 'interactive') return
+          e.stopPropagation()
+          document.body.style.cursor = 'pointer'
+        }}
+        onPointerOut={() => {
+          document.body.style.cursor = ''
+        }}
+      >
         <planeGeometry args={[3.68, 2.3]} />
         <meshBasicMaterial map={texture} toneMapped={false} />
       </mesh>

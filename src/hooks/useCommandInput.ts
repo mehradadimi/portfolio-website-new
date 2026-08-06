@@ -4,6 +4,7 @@ import { emitBuffer, emitKey } from '../state/keybus'
 import { useStore } from '../state/store'
 import { thock } from '../audio/thock'
 import { scrollToSection } from '../scroll/scrollManager'
+import { termKey } from '../interactive/terminal'
 
 const KONAMI = [
   'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
@@ -40,7 +41,7 @@ export function useCommandInput(onFlash: (msg: string) => void): void {
         if (!useStore.getState().muted) thock()
       }
 
-      // Konami tracking
+      // Konami tracking (works in both modes)
       if (e.code === KONAMI[konamiIndex]) {
         konamiIndex++
         if (konamiIndex === KONAMI.length) {
@@ -54,6 +55,19 @@ export function useCommandInput(onFlash: (msg: string) => void): void {
         }
       } else {
         konamiIndex = e.code === KONAMI[0] ? 1 : 0
+      }
+
+      // interactive mode: keys go to the desk terminal instead
+      if (useStore.getState().mode === 'interactive') {
+        if (e.key === 'Escape') {
+          const { screenZoom, setScreenZoom, setMode } = useStore.getState()
+          if (screenZoom) setScreenZoom(false)
+          else setMode('normal')
+          return
+        }
+        if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'ArrowDown') e.preventDefault()
+        termKey(e.key, e.code)
+        return
       }
 
       // Command buffer

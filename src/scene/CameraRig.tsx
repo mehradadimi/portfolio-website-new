@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
 import { scrollState, sectionFloat } from '../state/scrollState'
 import { prefersReducedMotion } from '../scroll/scrollManager'
+import { useStore } from '../state/store'
 
 // One camera waypoint per DOM section, in section order.
 const WAYPOINTS: Array<{ pos: THREE.Vector3; look: THREE.Vector3 }> = [
@@ -15,6 +16,10 @@ const WAYPOINTS: Array<{ pos: THREE.Vector3; look: THREE.Vector3 }> = [
 
 const smoothstep = (t: number) => t * t * (3 - 2 * t)
 
+// interactive-mode POVs: over Mehrad's shoulder, and zoomed onto the screen
+const POV_DESK = { pos: new THREE.Vector3(1.5, 3.05, 5.2), look: new THREE.Vector3(-0.1, 1.6, -1.4) }
+const POV_SCREEN = { pos: new THREE.Vector3(0, 1.97, 1.8), look: new THREE.Vector3(0, 1.94, -1.45) }
+
 export function CameraRig() {
   const reduced = useMemo(prefersReducedMotion, [])
   const desired = useRef(new THREE.Vector3())
@@ -22,6 +27,21 @@ export function CameraRig() {
   const look = useRef(new THREE.Vector3(0, 0.8, -0.2))
 
   useFrame(({ camera, pointer, size }, delta) => {
+    const { mode, screenZoom } = useStore.getState()
+    if (mode === 'interactive') {
+      const pov = screenZoom ? POV_SCREEN : POV_DESK
+      desired.current.copy(pov.pos)
+      if (!reduced && !screenZoom) {
+        desired.current.x += pointer.x * 0.18
+        desired.current.y += pointer.y * 0.1
+      }
+      const ki = reduced ? 1 : 1 - Math.exp(-delta * 3.5)
+      camera.position.lerp(desired.current, ki)
+      look.current.lerp(pov.look, ki)
+      camera.lookAt(look.current)
+      return
+    }
+
     const sec = sectionFloat(scrollState.progress)
     const i = Math.min(WAYPOINTS.length - 2, Math.floor(sec))
     const t = smoothstep(Math.min(1, Math.max(0, sec - i)))

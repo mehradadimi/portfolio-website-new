@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { Float } from '@react-three/drei'
 import { Keyboard } from './Keyboard'
 import { Monitor } from './Monitor'
+import { Avatar } from './Avatar'
 import { FloatingKeycaps, Constellation } from './FloatingBits'
 import { ProjectPanels } from './ProjectPanels'
 import { useStore } from '../state/store'
@@ -44,12 +45,13 @@ const COLORS: Record<'dark' | 'light', SceneColors> = {
 export function DeskScene() {
   const theme = useStore((s) => s.theme)
   const devMode = useStore((s) => s.devMode)
+  const mode = useStore((s) => s.mode)
   const c = COLORS[theme]
   const reduced = useMemo(prefersReducedMotion, [])
 
   return (
     <group>
-      <Float speed={reduced ? 0 : 1} rotationIntensity={0.04} floatIntensity={0.3}>
+      <Float speed={reduced || mode === 'interactive' ? 0 : 1} rotationIntensity={0.04} floatIntensity={0.3}>
         <group>
           {/* island base — hexagonal inverted cone (triangle facets everywhere) */}
           <mesh position={[0, -2.1, 0]} rotation={[Math.PI, 0, 0]}>
@@ -64,6 +66,7 @@ export function DeskScene() {
 
           <Keyboard position={[0, 0.14, 1.0]} scale={0.32} />
           <Monitor position={[0, 0, -1.4]} />
+          {mode === 'interactive' && <Avatar />}
 
           {/* mug */}
           <group position={[2.4, 0, 0.6]}>

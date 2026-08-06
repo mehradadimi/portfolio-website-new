@@ -24,6 +24,12 @@ export function destroyScroll(): void {
   lenis = null
 }
 
+export function pauseScroll(paused: boolean): void {
+  if (paused) lenis?.stop()
+  else lenis?.start()
+  document.documentElement.classList.toggle('no-scroll', paused)
+}
+
 export function scrollToSection(id: string): void {
   const el = document.getElementById(id)
   if (!el) return
