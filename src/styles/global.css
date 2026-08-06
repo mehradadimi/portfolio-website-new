@@ -724,6 +724,23 @@ html.no-scroll {
   color: var(--muted);
 }
 
+.desk-hint {
+  position: fixed;
+  z-index: 110;
+  bottom: 1.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-2);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.55rem 1.2rem;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
 .exit-chip {
   position: fixed;
   z-index: 110;

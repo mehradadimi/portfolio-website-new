@@ -1,6 +1,7 @@
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
 import { scrollState, sectionFloat } from '../state/scrollState'
 import { prefersReducedMotion } from '../scroll/scrollManager'
 import { useStore } from '../state/store'
@@ -16,8 +17,10 @@ const WAYPOINTS: Array<{ pos: THREE.Vector3; look: THREE.Vector3 }> = [
 
 const smoothstep = (t: number) => t * t * (3 - 2 * t)
 
-// interactive-mode POVs: over Mehrad's shoulder, and zoomed onto the screen
-const POV_DESK = { pos: new THREE.Vector3(1.5, 3.05, 5.2), look: new THREE.Vector3(-0.1, 1.6, -1.4) }
+// interactive mode: fly-in to a 3/4 view of Mehrad at the desk, then hand
+// the visitor a free orbit camera. Typing / clicking the screen zooms in.
+const ENTRY = { pos: new THREE.Vector3(5.4, 3.0, 5.6), look: new THREE.Vector3(0, 1.2, 0.4) }
+const ORBIT_TARGET: [number, number, number] = [0, 1.2, 0.4]
 const SCREEN_LOOK = new THREE.Vector3(0, 1.94, -1.45)
 // monitor screen: 3.68 × 2.3 world units at z ≈ -1.33
 const SCREEN_W = 3.68
@@ -30,12 +33,19 @@ export function CameraRig() {
   const desired = useRef(new THREE.Vector3())
   const desiredLook = useRef(new THREE.Vector3())
   const look = useRef(new THREE.Vector3(0, 0.8, -0.2))
+  const mode = useStore((s) => s.mode)
+  const screenZoom = useStore((s) => s.screenZoom)
+  const [orbitReady, setOrbitReady] = useState(false)
+
+  // every time the visitor sits down, fly in before giving them the controls
+  useEffect(() => {
+    if (mode === 'interactive') setOrbitReady(false)
+  }, [mode])
 
   useFrame(({ camera, pointer, size }, delta) => {
-    const { mode, screenZoom } = useStore.getState()
-    if (mode === 'interactive') {
-      let lookTarget = POV_DESK.look
-      if (screenZoom) {
+    const { mode: m, screenZoom: zoom } = useStore.getState()
+    if (m === 'interactive') {
+      if (zoom) {
         // back the camera off just far enough that the whole screen fits
         // this viewport, whatever its aspect ratio
         const persp = camera as THREE.PerspectiveCamera
@@ -46,18 +56,24 @@ export function CameraRig() {
           (SCREEN_W * SCREEN_MARGIN) / (2 * tanHalf * aspect),
         )
         desired.current.set(0, 1.94, SCREEN_Z + dist)
-        lookTarget = SCREEN_LOOK
-      } else {
-        desired.current.copy(POV_DESK.pos)
-        if (!reduced) {
-          desired.current.x += pointer.x * 0.18
-          desired.current.y += pointer.y * 0.1
-        }
+        const ki = reduced ? 1 : 1 - Math.exp(-delta * 3.5)
+        camera.position.lerp(desired.current, ki)
+        look.current.lerp(SCREEN_LOOK, ki)
+        camera.lookAt(look.current)
+        return
       }
-      const ki = reduced ? 1 : 1 - Math.exp(-delta * 3.5)
-      camera.position.lerp(desired.current, ki)
-      look.current.lerp(lookTarget, ki)
-      camera.lookAt(look.current)
+      if (!orbitReady) {
+        // fly-in to the entry framing, then hand over the orbit controls
+        const ki = reduced ? 1 : 1 - Math.exp(-delta * 3.2)
+        camera.position.lerp(ENTRY.pos, ki)
+        look.current.lerp(ENTRY.look, ki)
+        camera.lookAt(look.current)
+        if (reduced || camera.position.distanceTo(ENTRY.pos) < 0.12) setOrbitReady(true)
+      } else {
+        // OrbitControls own the camera; keep our look ref synced for when
+        // the visitor zooms to the screen or leaves the desk
+        look.current.set(...ORBIT_TARGET)
+      }
       return
     }
 
@@ -86,5 +102,18 @@ export function CameraRig() {
     camera.lookAt(look.current)
   })
 
-  return null
+  if (mode !== 'interactive') return null
+  return (
+    <OrbitControls
+      enabled={orbitReady && !screenZoom}
+      target={ORBIT_TARGET}
+      enablePan={false}
+      enableDamping
+      dampingFactor={0.08}
+      minDistance={3.2}
+      maxDistance={14}
+      maxPolarAngle={Math.PI * 0.52}
+      makeDefault={false}
+    />
+  )
 }

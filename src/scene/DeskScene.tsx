@@ -66,7 +66,13 @@ export function DeskScene() {
 
           <Keyboard position={[0, 0.14, 1.0]} scale={0.32} />
           <Monitor position={[0, 0, -1.4]} />
-          {mode === 'interactive' && <Avatar />}
+          {mode === 'interactive' && (
+            <>
+              <Avatar />
+              {/* soft fill so orbiting doesn't land in the dark */}
+              <pointLight position={[0, 4, 2.5]} intensity={theme === 'dark' ? 6 : 2} distance={12} decay={1.6} color="#ffe7d6" />
+            </>
+          )}
 
           {/* mug */}
           <group position={[2.4, 0, 0.6]}>

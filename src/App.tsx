@@ -3,7 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { Navbar } from './components/Navbar'
-import { ModeChooser, ExitChip } from './components/ModeChooser'
+import { ModeChooser, ExitChip, DeskHint } from './components/ModeChooser'
 import { CommandHUD, type Flash } from './components/CommandHUD'
 import { Hero, Skills, Experience, Projects, Contact } from './sections/Sections'
 import { useCommandInput } from './hooks/useCommandInput'
@@ -110,6 +110,7 @@ export default function App() {
       </main>
       <CommandHUD flash={flash} />
       <ExitChip />
+      <DeskHint />
       <ModeChooser />
     </div>
   )

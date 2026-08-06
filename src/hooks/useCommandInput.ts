@@ -68,6 +68,10 @@ export function useCommandInput(onFlash: (msg: string) => void): void {
         if ([' ', 'Tab', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) {
           e.preventDefault()
         }
+        // typing while looking around dives into the screen automatically
+        if (!useStore.getState().screenZoom && (e.key.length === 1 || e.key === 'Enter' || e.key === 'Backspace')) {
+          useStore.getState().setScreenZoom(true)
+        }
         termKey(e.key, e.code)
         return
       }

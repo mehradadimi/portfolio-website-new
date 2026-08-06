@@ -47,6 +47,7 @@ export function Avatar() {
 
   const hoodie = theme === 'dark' ? '#26262e' : '#3a3a44'
   const hoodieShade = theme === 'dark' ? '#1d1d24' : '#2e2e37'
+  const skin = theme === 'dark' ? '#c9a184' : '#b8916f'
   const accent = '#ff6b4a'
 
   return (
@@ -81,11 +82,25 @@ export function Avatar() {
           <boxGeometry args={[0.5, 0.22, 0.24]} />
           <meshStandardMaterial color={hoodieShade} flatShading />
         </mesh>
-        {/* head + headphones */}
+        {/* head + face + headphones (he faces the monitor, -z) */}
         <group ref={headRef} position={[0, 1.78, 0.28]}>
           <mesh>
-            <icosahedronGeometry args={[0.26, 1]} />
-            <meshStandardMaterial color={hoodie} flatShading />
+            <icosahedronGeometry args={[0.24, 2]} />
+            <meshStandardMaterial color={skin} flatShading />
+          </mesh>
+          {/* eyes */}
+          <mesh position={[-0.09, 0.03, -0.2]}>
+            <sphereGeometry args={[0.032, 8, 8]} />
+            <meshStandardMaterial color="#16161c" />
+          </mesh>
+          <mesh position={[0.09, 0.03, -0.2]}>
+            <sphereGeometry args={[0.032, 8, 8]} />
+            <meshStandardMaterial color="#16161c" />
+          </mesh>
+          {/* hood hugging the back of the head */}
+          <mesh position={[0, 0.02, 0.13]} rotation={[0.25, 0, 0]}>
+            <sphereGeometry args={[0.27, 10, 8, 0, Math.PI]} />
+            <meshStandardMaterial color={hoodie} flatShading side={THREE.DoubleSide} />
           </mesh>
           <mesh position={[0, 0.16, 0]} rotation={[0, 0, Math.PI / 2]}>
             <torusGeometry args={[0.26, 0.035, 6, 14, Math.PI]} />
@@ -112,11 +127,11 @@ export function Avatar() {
         {/* hands hovering over the keyboard (world z ≈ 1.5, just above the caps) */}
         <mesh ref={leftHand} position={[-0.55, 0.58, -1.25]}>
           <boxGeometry args={[0.16, 0.09, 0.2]} />
-          <meshStandardMaterial color={theme === 'dark' ? '#c9a184' : '#b8916f'} flatShading />
+          <meshStandardMaterial color={skin} flatShading />
         </mesh>
         <mesh ref={rightHand} position={[0.55, 0.58, -1.25]}>
           <boxGeometry args={[0.16, 0.09, 0.2]} />
-          <meshStandardMaterial color={theme === 'dark' ? '#c9a184' : '#b8916f'} flatShading />
+          <meshStandardMaterial color={skin} flatShading />
         </mesh>
       </group>
     </group>
