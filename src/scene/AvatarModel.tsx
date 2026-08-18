@@ -17,10 +17,10 @@ const POSE: Record<string, [number, number, number]> = {
   Head: [-0.06, 0, 0],
   LeftUpLeg: [1.5, 0.12, 0.06],
   RightUpLeg: [1.5, -0.12, -0.06],
-  LeftLeg: [1.4, 0, 0],
-  RightLeg: [1.4, 0, 0],
-  LeftFoot: [0.25, 0, 0],
-  RightFoot: [0.25, 0, 0],
+  LeftLeg: [1.1, 0, 0],
+  RightLeg: [1.1, 0, 0],
+  LeftFoot: [0.45, 0, 0],
+  RightFoot: [0.45, 0, 0],
   LeftShoulder: [0, 0, 0],
   RightShoulder: [0, 0, 0],
 }
@@ -29,8 +29,8 @@ const POSE: Record<string, [number, number, number]> = {
 const AIM: Array<[bone: string, child: string, dir: [number, number, number]]> = [
   ['LeftArm', 'LeftForeArm', [-0.18, -0.85, -0.5]],
   ['RightArm', 'RightForeArm', [0.18, -0.85, -0.5]],
-  ['LeftForeArm', 'LeftHand', [-0.05, -0.25, -1]],
-  ['RightForeArm', 'RightHand', [0.05, -0.25, -1]],
+  ['LeftForeArm', 'LeftHand', [-0.05, -0.38, -1]],
+  ['RightForeArm', 'RightHand', [0.05, -0.38, -1]],
   ['LeftHand', 'LeftHandMiddle1', [-0.05, -0.45, -1]],
   ['RightHand', 'RightHandMiddle1', [0.05, -0.45, -1]],
 ]
@@ -133,8 +133,8 @@ export function AvatarModel() {
     <group>
       <Chair />
       {/* model origin is at the feet — sink the group so the hips land on
-          the chair seat (seat top ≈ y 0.31 world, hip height ≈ 0.95m × scale) */}
-      <group position={[0, -1.26, 3.05]} rotation={[0, Math.PI, 0]} scale={1.65}>
+          the lowered chair seat (top ≈ y -0.10 world) with legs under the desk */}
+      <group position={[0, -1.67, 2.72]} rotation={[0, Math.PI, 0]} scale={1.65}>
         <primitive object={scene} />
       </group>
     </group>

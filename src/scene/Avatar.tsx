@@ -9,21 +9,23 @@ export function Chair() {
   const theme = useStore((s) => s.theme)
   const shade = theme === 'dark' ? '#1a1a21' : '#282832'
   return (
-    <group position={[0, -0.3, 2.75]}>
-      <mesh position={[0, 0.28, 0.35]}>
-        <cylinderGeometry args={[0.06, 0.09, 0.55, 6]} />
+    // low chair — seat sits below the desk top so a seated human's legs
+    // actually fit underneath
+    <group position={[0, -0.3, 2.65]}>
+      <mesh position={[0, 0.09, 0.35]}>
+        <cylinderGeometry args={[0.05, 0.08, 0.18, 6]} />
         <meshStandardMaterial color={shade} flatShading />
       </mesh>
       <mesh position={[0, 0.02, 0.35]}>
         <cylinderGeometry args={[0.42, 0.46, 0.06, 6]} />
         <meshStandardMaterial color={shade} flatShading />
       </mesh>
-      <mesh position={[0, 0.58, 0.35]}>
-        <boxGeometry args={[0.95, 0.1, 0.85]} />
+      <mesh position={[0, 0.16, 0.35]}>
+        <boxGeometry args={[0.95, 0.08, 0.85]} />
         <meshStandardMaterial color={shade} flatShading />
       </mesh>
-      <mesh position={[0, 1.15, 0.78]} rotation={[-0.12, 0, 0]}>
-        <boxGeometry args={[0.95, 1.15, 0.14]} />
+      <mesh position={[0, 0.62, 0.76]} rotation={[-0.12, 0, 0]}>
+        <boxGeometry args={[0.95, 0.95, 0.12]} />
         <meshStandardMaterial color={shade} flatShading />
       </mesh>
     </group>
