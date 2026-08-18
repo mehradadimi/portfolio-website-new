@@ -17,9 +17,9 @@ let konamiIndex = 0
 
 export const EASTER_EGGS: Record<string, string> = {
   sudo: 'nice try.',
-  help: 'commands: home · skills · experience · projects · contact — type one and hit ↵',
+  help: 'commands: home · skills · experience · projects · contact. type one and hit ↵',
   devmode: 'dev mode toggled',
-  vim: ':q! — you are free now',
+  vim: ':q! you are free now',
 }
 
 /**
@@ -98,7 +98,7 @@ export function useCommandInput(onFlash: (msg: string) => void): void {
           }
           onFlash(EASTER_EGGS[cmd])
         } else {
-          onFlash(`command not found: ${cmd} — try "help"`)
+          onFlash(`command not found: ${cmd}. try "help"`)
         }
       }
     }

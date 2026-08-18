@@ -14,7 +14,7 @@ const COLS = 62
 const MAX_LINES = 400
 
 const BANNER: TermLine[] = [
-  { text: `MEHRAD-DESK v2.2 (build ${__BUILD_ID__}) — welcome, visitor.`, kind: 'accent' },
+  { text: `MEHRAD-DESK v2.2 (build ${__BUILD_ID__}). welcome, visitor.`, kind: 'accent' },
   { text: 'you are typing on my actual keyboard. be nice to it.', kind: 'dim' },
   { text: 'type "help" to see what you can do.', kind: 'dim' },
   { text: '', kind: 'out' },
@@ -61,7 +61,7 @@ const slug = (s: string) => s.toLowerCase().replace(/\s+/g, '-')
 
 const FILES: Record<string, () => string[]> = {
   'about.txt': () => [
-    `${OWNER.name} — ${OWNER.role}`,
+    `${OWNER.name}, ${OWNER.role}`,
     OWNER.location,
     '',
     OWNER.tagline,
@@ -85,13 +85,13 @@ for (const g of SKILLS) {
 }
 for (const p of PROJECTS) {
   FILES[`projects/${slug(p.name)}.md`] = () => [
-    `# ${p.name} — ${p.subtitle}`,
+    `# ${p.name}: ${p.subtitle}`,
     p.period,
     '',
     p.description,
     '',
     `tech: ${p.tech.join(', ')}`,
-    ...(p.link ? [`link: ${p.link}   (try: open ${slug(p.name)})`] : ['(private build — no public link)']),
+    ...(p.link ? [`link: ${p.link}   (try: open ${slug(p.name)})`] : ['(private build, no public link)']),
   ]
 }
 
@@ -240,7 +240,7 @@ function exec(raw: string) {
         push(`opening ${p.name} …`, 'accent')
         window.open(p.link, '_blank', 'noopener')
       } else if (p) {
-        push(`${p.name} is a private build — nothing to open. cat ${slug(p.name)}.md instead.`, 'dim')
+        push(`${p.name} is a private build, nothing to open. cat ${slug(p.name)}.md instead.`, 'dim')
       } else {
         push(`open: ${arg}: not found. try "ls projects"`, 'dim')
       }
@@ -257,7 +257,7 @@ function exec(raw: string) {
       push(`                   Theme:   ${useStore.getState().theme} (+ coral)`)
       break
     case 'whoami':
-      push('visitor — but the desk belongs to:')
+      push('visitor. but the desk belongs to:')
       FILES['about.txt']().forEach((l) => push(l))
       break
     case 'pwd':
@@ -298,7 +298,7 @@ function exec(raw: string) {
       push('rm: nice try.', 'dim')
       break
     default:
-      push(`${cmd}: command not found — try "help"`, 'dim')
+      push(`${cmd}: command not found. try "help"`, 'dim')
   }
 }
 

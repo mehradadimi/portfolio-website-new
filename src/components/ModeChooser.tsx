@@ -15,7 +15,7 @@ export function ModeChooser() {
       <div className="chooser-cards">
         <button className="chooser-card" onClick={() => setMode('normal')}>
           <h3>{'// classic'}</h3>
-          <p>Scroll the site — skills, experience, projects — with the 3D desk as your backdrop.</p>
+          <p>Scroll the site with the 3D desk as your backdrop. Skills, experience, projects, contact.</p>
           <span className="chooser-hint">the quick tour</span>
         </button>
         <button
@@ -30,7 +30,7 @@ export function ModeChooser() {
           <span className="chooser-hint">⌨ full desk experience</span>
         </button>
       </div>
-      <p className="chooser-fine">either way, you can switch anytime — esc leaves the desk</p>
+      <p className="chooser-fine">either way, you can switch anytime. esc leaves the desk</p>
     </div>
   )
 }

@@ -20,10 +20,10 @@ export function Hero() {
         <p className="hero-tag" data-reveal>{OWNER.quote}</p>
         <p className="hero-hint" data-reveal>
           {perfTier.isTouch ? (
-            <>tap the keyboard — or just scroll</>
+            <>tap the keyboard, or just scroll</>
           ) : (
             <>
-              &gt; type <b>"projects"</b> ↵ — or just scroll
+              &gt; type <b>"projects"</b> ↵ or just scroll
             </>
           )}
         </p>
@@ -159,7 +159,7 @@ export function Experience() {
       <div className="section-inner">
         <h2 className="section-heading" data-reveal>{'// experience'}</h2>
         <p className="xp-sub" data-reveal>
-          A timeline of where I've built, broken, and shipped things — one branch at a time.
+          A timeline of where I've built, broken, and shipped things, one branch at a time.
         </p>
         <div className="xp-list" ref={listRef}>
           <svg ref={svgRef} className="tree-svg" aria-hidden="true">
@@ -296,7 +296,7 @@ export function Contact() {
           Let's build something.
         </h3>
         <p className="contact-blurb" data-reveal>
-          Whether it's a project, a role, or just to talk shop about MCP servers and mechanical keyboards — my
+          Whether it's a project, a role, or just to talk shop about MCP servers and mechanical keyboards, my
           inbox is open.
         </p>
         <div className="contact-actions" data-reveal>
@@ -331,8 +331,8 @@ export function Contact() {
               {status === 'sending' ? 'sending…' : 'send'}
             </button>
             <p className="form-status">
-              {status === 'sent' && 'sent — talk soon!'}
-              {status === 'error' && 'something broke — email me directly instead?'}
+              {status === 'sent' && 'sent. talk soon!'}
+              {status === 'error' && 'something broke. email me directly instead?'}
             </p>
           </form>
         )}

@@ -16,7 +16,7 @@ function linesFor(section: SectionId): Array<[string, 'prompt' | 'out' | 'dim']>
     case 'home':
       return [
         [`${PROMPT} whoami`, 'prompt'],
-        [`${OWNER.name} — ${OWNER.role}`, 'out'],
+        [`${OWNER.name}, ${OWNER.role}`, 'out'],
         [`${PROMPT} pwd`, 'prompt'],
         ['/canada/victoria-bc', 'out'],
         ['', 'out'],
