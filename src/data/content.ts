@@ -1,3 +1,5 @@
+import doorknobImg from '../assets/projects/doorknob.png'
+import jobAssistantImg from '../assets/projects/job-assistant.png'
 import hiveImg from '../assets/projects/hive.png'
 import codebaseMasterImg from '../assets/projects/codebase-master.png'
 import meetingVaultImg from '../assets/projects/meeting-vault.png'
@@ -103,6 +105,24 @@ export interface Project {
 }
 
 export const PROJECTS: Project[] = [
+  {
+    name: 'Doorknob',
+    subtitle: 'AI receptionist for local businesses',
+    period: 'Jul 2026 — Present',
+    description:
+      "Rebuilds a local business's one-page site with an AI receptionist embedded — it answers customers and books real appointments 24/7, no phone ringing. Claude Agent SDK with an in-process MCP booking tool; one backend serves every business as a config row, not a deployment.",
+    tech: ['Next.js', 'TypeScript', 'Claude Agent SDK', 'MCP', 'Zod', 'Vercel'],
+    image: doorknobImg,
+  },
+  {
+    name: 'Job Assistant',
+    subtitle: 'Evidence-based resume engine',
+    period: 'May 2026 — Present',
+    description:
+      'Ingests my career docs into pgvector, retrieves evidence per job description, and generates ATS-audited resumes and cover letters compiled to PDF with Typst — plus an interview coach. Opus 5 writes, Sonnet 5 extracts, billed per-user through Vercel AI Gateway.',
+    tech: ['Next.js', 'AI SDK', 'AI Gateway', 'pgvector', 'Supabase', 'Drizzle', 'Typst'],
+    image: jobAssistantImg,
+  },
   {
     name: 'Hive',
     subtitle: 'NFC digital business cards',
