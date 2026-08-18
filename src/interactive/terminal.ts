@@ -14,7 +14,7 @@ const COLS = 62
 const MAX_LINES = 400
 
 const BANNER: TermLine[] = [
-  { text: 'MEHRAD-DESK v2.1 — welcome, visitor.', kind: 'accent' },
+  { text: `MEHRAD-DESK v2.2 (build ${__BUILD_ID__}) — welcome, visitor.`, kind: 'accent' },
   { text: 'you are typing on my actual keyboard. be nice to it.', kind: 'dim' },
   { text: 'type "help" to see what you can do.', kind: 'dim' },
   { text: '', kind: 'out' },

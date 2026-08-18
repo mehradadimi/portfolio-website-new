@@ -3,6 +3,11 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  define: {
+    __BUILD_ID__: JSON.stringify(
+      new Date().toISOString().slice(2, 16).replace('T', '.').replaceAll('-', '').replace(':', ''),
+    ),
+  },
   build: {
     chunkSizeWarningLimit: 1200,
     rollupOptions: {
