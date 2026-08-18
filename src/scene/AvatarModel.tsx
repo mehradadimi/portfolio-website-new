@@ -10,9 +10,9 @@ const AVATAR_URL = '/mehrad-avatar.glb'
 // Seated pose, applied to the Avaturn/Mixamo rig. Values are local euler
 // rotations in radians, tuned by screenshot iteration.
 const POSE: Record<string, [number, number, number]> = {
-  Spine: [0.16, 0, 0],
-  Spine1: [0.08, 0, 0],
-  Spine2: [0.05, 0, 0],
+  Spine: [0.1, 0, 0],
+  Spine1: [0.06, 0, 0],
+  Spine2: [0.04, 0, 0],
   Neck: [-0.12, 0, 0],
   Head: [-0.06, 0, 0],
   LeftUpLeg: [1.5, 0.12, 0.06],
@@ -26,14 +26,17 @@ const POSE: Record<string, [number, number, number]> = {
 }
 
 // world-space directions the limb segments should point (he faces -z).
-// Upper arms mostly hang, forearms reach forward — a real elbow bend.
+// The clavicle drops slightly outward-down (no shrug), the upper arm hangs
+// at a relaxed A-line — never fully vertical, which bunches the deltoid.
 const AIM: Array<[bone: string, child: string, dir: [number, number, number]]> = [
-  ['LeftArm', 'LeftForeArm', [-0.06, -1, -0.15]],
-  ['RightArm', 'RightForeArm', [0.06, -1, -0.15]],
-  ['LeftForeArm', 'LeftHand', [-0.04, -0.18, -1]],
-  ['RightForeArm', 'RightHand', [0.04, -0.18, -1]],
-  ['LeftHand', 'LeftHandMiddle1', [-0.05, -0.65, -0.85]],
-  ['RightHand', 'RightHandMiddle1', [0.05, -0.65, -0.85]],
+  ['LeftShoulder', 'LeftArm', [-0.92, -0.32, -0.1]],
+  ['RightShoulder', 'RightArm', [0.92, -0.32, -0.1]],
+  ['LeftArm', 'LeftForeArm', [-0.3, -0.9, -0.22]],
+  ['RightArm', 'RightForeArm', [0.3, -0.9, -0.22]],
+  ['LeftForeArm', 'LeftHand', [0.08, -0.18, -1]],
+  ['RightForeArm', 'RightHand', [-0.08, -0.18, -1]],
+  ['LeftHand', 'LeftHandMiddle1', [-0.02, -0.6, -0.9]],
+  ['RightHand', 'RightHandMiddle1', [0.02, -0.6, -0.9]],
 ]
 
 // module-level bind-pose snapshot so re-entering interactive mode (or React
