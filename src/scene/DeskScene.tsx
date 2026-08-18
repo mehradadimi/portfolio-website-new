@@ -1,8 +1,10 @@
 import { useMemo } from 'react'
 import { Float } from '@react-three/drei'
+import { Suspense } from 'react'
 import { Keyboard } from './Keyboard'
 import { Monitor } from './Monitor'
 import { Avatar } from './Avatar'
+import { AvatarModel } from './AvatarModel'
 import { FloatingKeycaps, Constellation } from './FloatingBits'
 import { ProjectPanels } from './ProjectPanels'
 import { useStore } from '../state/store'
@@ -68,7 +70,10 @@ export function DeskScene() {
           <Monitor position={[0, 0, -1.4]} />
           {mode === 'interactive' && (
             <>
-              <Avatar />
+              {/* real scanned Mehrad; low-poly stand-in while the GLB streams */}
+              <Suspense fallback={<Avatar />}>
+                <AvatarModel />
+              </Suspense>
               {/* soft fill so orbiting doesn't land in the dark */}
               <pointLight position={[0, 4, 2.5]} intensity={theme === 'dark' ? 6 : 2} distance={12} decay={1.6} color="#ffe7d6" />
             </>

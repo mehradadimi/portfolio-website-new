@@ -4,9 +4,35 @@ import { useFrame } from '@react-three/fiber'
 import { useStore } from '../state/store'
 import { onKey } from '../state/keybus'
 
-// Mehrad at his desk — short quiffed dark hair, full beard, dark suit with
-// a coral tie (his LinkedIn look, low-poly). Hands dip when the visitor
-// types — because in interactive mode, they're his hands too.
+// Desk chair, shared by the low-poly fallback and the scanned GLB avatar.
+export function Chair() {
+  const theme = useStore((s) => s.theme)
+  const shade = theme === 'dark' ? '#1a1a21' : '#282832'
+  return (
+    <group position={[0, -0.3, 2.75]}>
+      <mesh position={[0, 0.28, 0.35]}>
+        <cylinderGeometry args={[0.06, 0.09, 0.55, 6]} />
+        <meshStandardMaterial color={shade} flatShading />
+      </mesh>
+      <mesh position={[0, 0.02, 0.35]}>
+        <cylinderGeometry args={[0.42, 0.46, 0.06, 6]} />
+        <meshStandardMaterial color={shade} flatShading />
+      </mesh>
+      <mesh position={[0, 0.58, 0.35]}>
+        <boxGeometry args={[0.95, 0.1, 0.85]} />
+        <meshStandardMaterial color={shade} flatShading />
+      </mesh>
+      <mesh position={[0, 1.15, 0.78]} rotation={[-0.12, 0, 0]}>
+        <boxGeometry args={[0.95, 1.15, 0.14]} />
+        <meshStandardMaterial color={shade} flatShading />
+      </mesh>
+    </group>
+  )
+}
+
+// Low-poly Mehrad — the fallback while the scanned avatar streams in.
+// Hands dip when the visitor types — because in interactive mode, they're
+// his hands too.
 export function Avatar() {
   const theme = useStore((s) => s.theme)
   const groupRef = useRef<THREE.Group>(null)
@@ -46,32 +72,16 @@ export function Avatar() {
   })
 
   const suit = theme === 'dark' ? '#23232c' : '#33333e'
-  const suitShade = theme === 'dark' ? '#1a1a21' : '#282832'
   const skin = '#c99f7f'
   const hair = '#241f1c'
   const accent = '#ff6b4a'
 
   return (
-    <group position={[0, -0.3, 2.75]}>
-      {/* chair */}
-      <mesh position={[0, 0.28, 0.35]}>
-        <cylinderGeometry args={[0.06, 0.09, 0.55, 6]} />
-        <meshStandardMaterial color={suitShade} flatShading />
-      </mesh>
-      <mesh position={[0, 0.02, 0.35]}>
-        <cylinderGeometry args={[0.42, 0.46, 0.06, 6]} />
-        <meshStandardMaterial color={suitShade} flatShading />
-      </mesh>
-      <mesh position={[0, 0.58, 0.35]}>
-        <boxGeometry args={[0.95, 0.1, 0.85]} />
-        <meshStandardMaterial color={suitShade} flatShading />
-      </mesh>
-      <mesh position={[0, 1.15, 0.78]} rotation={[-0.12, 0, 0]}>
-        <boxGeometry args={[0.95, 1.15, 0.14]} />
-        <meshStandardMaterial color={suitShade} flatShading />
-      </mesh>
+    <group>
+      <Chair />
 
-      {/* body */}
+      {/* body (positioned in island space) */}
+      <group position={[0, -0.3, 2.75]}>
       <group ref={groupRef}>
         {/* torso — dark suit jacket */}
         <mesh position={[0, 1.06, 0.32]} rotation={[0.06, 0, 0]}>
@@ -148,6 +158,7 @@ export function Avatar() {
           <boxGeometry args={[0.16, 0.09, 0.2]} />
           <meshStandardMaterial color={skin} flatShading />
         </mesh>
+      </group>
       </group>
     </group>
   )
