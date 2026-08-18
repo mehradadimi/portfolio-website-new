@@ -130,7 +130,7 @@ export const PROJECTS: Project[] = [
     description:
       'Tap a physical NFC card, share your profile instantly. A mobile-first PWA with five card templates, follow-up emails, lifetime analytics, Apple Wallet passes, and Stripe-powered card sales and subscriptions.',
     tech: ['Next.js', 'React 19', 'TypeScript', 'Supabase', 'Drizzle', 'Stripe', 'Fly.io'],
-    link: 'https://hive.fly.dev',
+    link: 'https://tryhive.co',
     image: hiveImg,
   },
   {
