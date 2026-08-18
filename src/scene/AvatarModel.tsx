@@ -10,9 +10,9 @@ const AVATAR_URL = '/mehrad-avatar.glb'
 // Seated pose, applied to the Avaturn/Mixamo rig. Values are local euler
 // rotations in radians, tuned by screenshot iteration.
 const POSE: Record<string, [number, number, number]> = {
-  Spine: [0.1, 0, 0],
-  Spine1: [0.06, 0, 0],
-  Spine2: [0.04, 0, 0],
+  Spine: [0.16, 0, 0],
+  Spine1: [0.08, 0, 0],
+  Spine2: [0.05, 0, 0],
   Neck: [-0.12, 0, 0],
   Head: [-0.06, 0, 0],
   LeftUpLeg: [1.5, 0.12, 0.06],
@@ -28,12 +28,12 @@ const POSE: Record<string, [number, number, number]> = {
 // world-space directions the limb segments should point (he faces -z).
 // Upper arms mostly hang, forearms reach forward — a real elbow bend.
 const AIM: Array<[bone: string, child: string, dir: [number, number, number]]> = [
-  ['LeftArm', 'LeftForeArm', [-0.08, -0.95, -0.35]],
-  ['RightArm', 'RightForeArm', [0.08, -0.95, -0.35]],
-  ['LeftForeArm', 'LeftHand', [-0.05, -0.42, -1]],
-  ['RightForeArm', 'RightHand', [0.05, -0.42, -1]],
-  ['LeftHand', 'LeftHandMiddle1', [-0.05, -0.7, -0.8]],
-  ['RightHand', 'RightHandMiddle1', [0.05, -0.7, -0.8]],
+  ['LeftArm', 'LeftForeArm', [-0.06, -1, -0.15]],
+  ['RightArm', 'RightForeArm', [0.06, -1, -0.15]],
+  ['LeftForeArm', 'LeftHand', [-0.04, -0.18, -1]],
+  ['RightForeArm', 'RightHand', [0.04, -0.18, -1]],
+  ['LeftHand', 'LeftHandMiddle1', [-0.05, -0.65, -0.85]],
+  ['RightHand', 'RightHandMiddle1', [0.05, -0.65, -0.85]],
 ]
 
 // module-level bind-pose snapshot so re-entering interactive mode (or React
@@ -158,7 +158,7 @@ export function AvatarModel() {
       <Chair />
       {/* model origin is at the feet — sink the group so the hips land on
           the lowered chair seat (top ≈ y -0.10 world) with legs under the desk */}
-      <group position={[0, -1.67, 2.72]} rotation={[0, Math.PI, 0]} scale={1.65}>
+      <group position={[0, -1.67, 2.38]} rotation={[0, Math.PI, 0]} scale={1.65}>
         <primitive object={scene} />
       </group>
     </group>

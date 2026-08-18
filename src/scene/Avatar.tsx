@@ -11,7 +11,7 @@ export function Chair() {
   return (
     // low chair — seat sits below the desk top so a seated human's legs
     // actually fit underneath
-    <group position={[0, -0.3, 2.65]}>
+    <group position={[0, -0.3, 2.32]}>
       <mesh position={[0, 0.09, 0.35]}>
         <cylinderGeometry args={[0.05, 0.08, 0.18, 6]} />
         <meshStandardMaterial color={shade} flatShading />
