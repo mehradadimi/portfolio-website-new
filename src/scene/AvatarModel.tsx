@@ -25,18 +25,24 @@ const POSE: Record<string, [number, number, number]> = {
   RightShoulder: [0, 0, 0],
 }
 
-// world-space directions the limb segments should point (he faces -z)
+// world-space directions the limb segments should point (he faces -z).
+// Upper arms mostly hang, forearms reach forward — a real elbow bend.
 const AIM: Array<[bone: string, child: string, dir: [number, number, number]]> = [
-  ['LeftArm', 'LeftForeArm', [-0.18, -0.85, -0.5]],
-  ['RightArm', 'RightForeArm', [0.18, -0.85, -0.5]],
-  ['LeftForeArm', 'LeftHand', [-0.05, -0.38, -1]],
-  ['RightForeArm', 'RightHand', [0.05, -0.38, -1]],
-  ['LeftHand', 'LeftHandMiddle1', [-0.05, -0.45, -1]],
-  ['RightHand', 'RightHandMiddle1', [0.05, -0.45, -1]],
+  ['LeftArm', 'LeftForeArm', [-0.08, -0.95, -0.35]],
+  ['RightArm', 'RightForeArm', [0.08, -0.95, -0.35]],
+  ['LeftForeArm', 'LeftHand', [-0.05, -0.42, -1]],
+  ['RightForeArm', 'RightHand', [0.05, -0.42, -1]],
+  ['LeftHand', 'LeftHandMiddle1', [-0.05, -0.7, -0.8]],
+  ['RightHand', 'RightHandMiddle1', [0.05, -0.7, -0.8]],
 ]
 
+// module-level bind-pose snapshot so re-entering interactive mode (or React
+// StrictMode double-mounting) always poses from a clean slate — useGLTF
+// caches the scene, so bone rotations would otherwise accumulate
+const bindPose = new Map<string, THREE.Quaternion>()
+
 // gentle finger curl over the keys
-const FINGER_CURL = 0.3
+const FINGER_CURL = 0.45
 
 export function AvatarModel() {
   const { scene } = useGLTF(AVATAR_URL)
@@ -52,12 +58,18 @@ export function AvatarModel() {
         o.frustumCulled = false
       }
       map.set(o.name, o)
+      if (!bindPose.has(o.uuid)) bindPose.set(o.uuid, o.quaternion.clone())
     })
     return map
   }, [scene])
 
   // apply the static pose once
   useEffect(() => {
+    // always start from the bind pose (the cached scene keeps prior rotations)
+    for (const bone of bones.values()) {
+      const bind = bindPose.get(bone.uuid)
+      if (bind) bone.quaternion.copy(bind)
+    }
     for (const [name, [x, y, z]] of Object.entries(POSE)) {
       bones.get(name)?.rotation.set(x, y, z)
     }
@@ -79,6 +91,18 @@ export function AvatarModel() {
       bone.parent.getWorldQuaternion(pq)
       const qLocal = pq.clone().invert().multiply(qWorld).multiply(pq)
       bone.quaternion.premultiply(qLocal)
+
+      // remove the "candy-wrapper" twist the shortest-arc rotation can add:
+      // decompose the change from bind pose around the limb axis and undo it,
+      // so the shoulder/sleeve mesh doesn't corkscrew
+      const bind = bindPose.get(bone.uuid)
+      if (bind) {
+        const limbAxis = child.position.clone().normalize()
+        const rel = bind.clone().invert().multiply(bone.quaternion)
+        const proj = new THREE.Vector3(rel.x, rel.y, rel.z).projectOnVector(limbAxis)
+        const twist = new THREE.Quaternion(proj.x, proj.y, proj.z, rel.w).normalize()
+        bone.quaternion.multiply(twist.clone().invert())
+      }
     }
     for (const side of ['Left', 'Right']) {
       for (const finger of ['Index', 'Middle', 'Ring', 'Pinky']) {
