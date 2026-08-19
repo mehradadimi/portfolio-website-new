@@ -1,5 +1,4 @@
 import doorknobImg from '../assets/projects/doorknob.png'
-import jobAssistantImg from '../assets/projects/job-assistant.png'
 import hiveImg from '../assets/projects/hive.png'
 import codebaseMasterImg from '../assets/projects/codebase-master.png'
 import meetingVaultImg from '../assets/projects/meeting-vault.png'
@@ -109,6 +108,15 @@ export interface Project {
 
 export const PROJECTS: Project[] = [
   {
+    name: 'Meeting Vault',
+    subtitle: '100% local meeting intelligence · macOS',
+    period: 'Mar 2026 - Present',
+    description:
+      'Records meeting audio with ScreenCaptureKit, transcribes on-device via whisper.cpp, separates speakers, and has a local Ollama LLM extract decisions and action items into a SQLite-backed knowledge graph with RAG search. No network, one binary, all local.',
+    tech: ['Tauri', 'Rust', 'React 19', 'whisper.cpp', 'Ollama', 'SQLite', 'ScreenCaptureKit'],
+    image: meetingVaultImg,
+  },
+  {
     name: 'Doorknob',
     subtitle: 'AI receptionist for local businesses',
     period: 'Jul 2026 - Present',
@@ -116,15 +124,6 @@ export const PROJECTS: Project[] = [
       "Rebuilds a local business's one-page site with an AI receptionist embedded that answers customers and books real appointments 24/7, no phone ringing. Built on the Claude Agent SDK with an in-process MCP booking tool, and one backend serves every business as a config row, not a deployment.",
     tech: ['Next.js', 'TypeScript', 'Claude Agent SDK', 'MCP', 'Zod', 'Vercel'],
     image: doorknobImg,
-  },
-  {
-    name: 'Job Assistant',
-    subtitle: 'Evidence-based resume engine',
-    period: 'May 2026 - Present',
-    description:
-      'Ingests my career docs into pgvector, retrieves evidence per job description, and generates ATS-audited resumes and cover letters compiled to PDF with Typst, plus an interview coach. Opus 5 writes, Sonnet 5 extracts, billed per-user through Vercel AI Gateway.',
-    tech: ['Next.js', 'AI SDK', 'AI Gateway', 'pgvector', 'Supabase', 'Drizzle', 'Typst'],
-    image: jobAssistantImg,
   },
   {
     name: 'Hive',
@@ -144,15 +143,6 @@ export const PROJECTS: Project[] = [
       'Ingests any codebase, JIRA project, and Confluence space into a unified vector + Neo4j graph store, exposed over MCP so AI assistants can trace Issue ↔ PR ↔ Commit ↔ File ↔ Symbol and answer "which issues touch this file?"',
     tech: ['Python', 'TypeScript', 'Neo4j', 'Postgres', 'OpenAI embeddings', 'MCP', 'Docker'],
     image: codebaseMasterImg,
-  },
-  {
-    name: 'Meeting Vault',
-    subtitle: '100% local meeting intelligence · macOS',
-    period: 'Mar 2026 - Present',
-    description:
-      'Records meeting audio with ScreenCaptureKit, transcribes on-device via whisper.cpp, separates speakers, and has a local Ollama LLM extract decisions and action items into a SQLite-backed knowledge graph with RAG search. No network, one binary, all local.',
-    tech: ['Tauri', 'Rust', 'React 19', 'whisper.cpp', 'Ollama', 'SQLite', 'ScreenCaptureKit'],
-    image: meetingVaultImg,
   },
   {
     name: 'NutriDine',
