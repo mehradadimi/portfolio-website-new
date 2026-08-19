@@ -30,17 +30,20 @@ export interface Job {
 
 export const EXPERIENCE: Job[] = [
   {
-    role: 'Software Developer I',
+    role: 'Software Developer II',
     company: 'Duplex',
-    org: 'Redbrick Media',
+    org: 'a Redbrick company',
     location: 'Victoria, BC',
     period: 'Jan 2025 - Present',
     bullets: [
-      'Drove the DynamoDB → Postgres + OpenSearch migration across the core API in Python and Flask, retiring a legacy search and precomputed-feed stack.',
-      'Architected an internal MCP server exposing a cross-repo knowledge graph over six private repos (Memgraph + OpenAI embeddings), delivering a 15× token reduction and 5.5× faster retrieval than grep-and-read.',
-      'Led the company-wide AI Working Group: MCP servers, Claude Code, Cursor, and authoring Claude Skills.',
+      'Cut agent token use 15x and cross-repo query time 5.5x by building the Duplex Context Engine, a company brain linking every repository into a Memgraph graph served over an authenticated MCP server.',
+      'Led the company AI Working Group and shipped opt-in automated code review any team enables in five lines of CI, on a provider-agnostic library spanning Anthropic, OpenAI and Google.',
+      'Automated article categorization for a news platform in Python on AWS Lambda and Step Functions, sorting every article into a 12-category taxonomy with structured-output prompting and a rules-based fallback.',
+      'Delivered an embeddable widget SDK that put a personalized ad-supported feed on partner sites in one script tag, with versioned CDN releases so partners picked up updates without touching their embed.',
+      'Owned the ingestion pipeline behind a partner integration serving roughly 200M monthly pageviews, cutting runtime from 13 to 5 minutes and adding per-partner source controls and deduplication.',
+      'Lifted reader engagement 35% by leading the ground-up rebuild of qz.com, delivering every reader-facing template on Next.js and a headless CMS behind a feature flag, then retiring the legacy design stack.',
     ],
-    tech: ['Python', 'Flask', 'Postgres', 'OpenSearch', 'AWS', 'Terraform', 'TypeScript'],
+    tech: ['Python', 'TypeScript', 'Next.js', 'AWS Lambda', 'Step Functions', 'Memgraph', 'MCP'],
   },
   {
     role: 'Software Engineer',
