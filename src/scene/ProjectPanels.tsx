@@ -4,6 +4,7 @@ import { useFrame } from '@react-three/fiber'
 import { useTexture, RoundedBox, Float } from '@react-three/drei'
 import { PROJECTS } from '../data/content'
 import { scrollState, sectionFloat } from '../state/scrollState'
+import { useStore } from '../state/store'
 
 // three panels either side of the centered content column, angled toward camera
 const SLOTS: Array<{ pos: [number, number, number]; rot: number }> = [
@@ -34,9 +35,10 @@ export function ProjectPanels() {
   )
 
   useFrame((_, delta) => {
-    // fade with distance from the projects section (index 3)
+    // fade with distance from the projects section (index 3); hidden at the desk
     const sec = sectionFloat(scrollState.progress)
-    const target = Math.max(0, 1 - Math.abs(sec - 3) * 1.6)
+    const target =
+      useStore.getState().mode === 'interactive' ? 0 : Math.max(0, 1 - Math.abs(sec - 3) * 1.6)
     const k = 1 - Math.exp(-delta * 5)
     for (const m of mats.current) {
       if (!m) continue

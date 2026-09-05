@@ -4,10 +4,12 @@ import type { SectionId } from '../data/content'
 type Theme = 'dark' | 'light'
 export type SiteMode = 'normal' | 'interactive'
 
+// The cinematic redesign commits to dark. Light remains reachable only via
+// the desk terminal's "theme light" easter egg.
 function initialTheme(): Theme {
   const saved = localStorage.getItem('theme')
   if (saved === 'dark' || saved === 'light') return saved
-  return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+  return 'dark'
 }
 
 interface UIState {
@@ -18,12 +20,14 @@ interface UIState {
   mode: SiteMode
   chooserOpen: boolean
   screenZoom: boolean
+  scene: number
   toggleTheme: () => void
   toggleMuted: () => void
   setDevMode: (on: boolean) => void
   setActiveSection: (s: SectionId) => void
   setMode: (m: SiteMode) => void
   setScreenZoom: (z: boolean) => void
+  setScene: (n: number) => void
 }
 
 const isTouch = window.matchMedia('(pointer: coarse)').matches
@@ -37,6 +41,7 @@ export const useStore = create<UIState>((set) => ({
   // interactive mode is desktop-only; remember the choice for this session
   chooserOpen: !isTouch && !sessionStorage.getItem('siteMode'),
   screenZoom: false,
+  scene: 0,
   toggleTheme: () =>
     set((s) => {
       const theme: Theme = s.theme === 'dark' ? 'light' : 'dark'
@@ -55,6 +60,7 @@ export const useStore = create<UIState>((set) => ({
     set({ mode, chooserOpen: false, screenZoom: false })
   },
   setScreenZoom: (screenZoom) => set({ screenZoom }),
+  setScene: (scene) => set({ scene }),
 }))
 
 // Mirror theme onto <html data-theme> so CSS variables follow the store.

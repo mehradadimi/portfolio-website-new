@@ -159,7 +159,7 @@ export const PROJECTS: Project[] = [
 export const SECTIONS = ['home', 'skills', 'experience', 'projects', 'contact'] as const
 export type SectionId = (typeof SECTIONS)[number]
 
-export const COMMANDS: Record<string, SectionId> = {
+export const COMMANDS: Record<string, string> = {
   home: 'home',
   top: 'home',
   skills: 'skills',
@@ -172,4 +172,5 @@ export const COMMANDS: Record<string, SectionId> = {
   contact: 'contact',
   hi: 'contact',
   email: 'contact',
+  desk: 'desk',
 }

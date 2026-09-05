@@ -5,18 +5,18 @@ import { useGSAP } from '@gsap/react'
 import { Navbar } from './components/Navbar'
 import { ModeChooser, ExitChip, DeskHint } from './components/ModeChooser'
 import { CommandHUD, type Flash } from './components/CommandHUD'
-import { Hero, Skills, Experience, Projects, Contact } from './sections/Sections'
+import { SceneHUD } from './scenes/SceneHUD'
+import {
+  OpeningScene,
+  SkillsScene,
+  ExperienceScene,
+  ProjectsScene,
+  DeskScenePitch,
+  ContactScene,
+} from './scenes/Scenes'
 import { useCommandInput } from './hooks/useCommandInput'
 import { useStore } from './state/store'
-import { scrollState } from './state/scrollState'
-import { SECTIONS } from './data/content'
-import {
-  destroyScroll,
-  initScroll,
-  measureSectionStops,
-  pauseScroll,
-  prefersReducedMotion,
-} from './scroll/scrollManager'
+import { destroyScroll, initScroll, pauseScroll } from './scroll/scrollManager'
 
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
@@ -26,7 +26,6 @@ const Poster = () => <div className="scene-poster" aria-hidden="true" />
 
 export default function App() {
   const rootRef = useRef<HTMLDivElement>(null)
-  const [canvasReady, setCanvasReady] = useState(false)
   const [flash, setFlash] = useState<Flash | null>(null)
 
   const onFlash = useCallback((msg: string) => setFlash({ msg, id: Date.now() }), [])
@@ -34,13 +33,7 @@ export default function App() {
 
   const mode = useStore((s) => s.mode)
 
-  // Let the DOM paint first (LCP), then mount the WebGL canvas.
-  useEffect(() => {
-    const id = window.setTimeout(() => setCanvasReady(true), 120)
-    return () => window.clearTimeout(id)
-  }, [])
-
-  // Interactive mode owns the page: no scrolling, no DOM sections.
+  // Interactive mode owns the page: no scrolling, no scenes.
   useEffect(() => {
     pauseScroll(mode === 'interactive')
     return () => pauseScroll(false)
@@ -50,41 +43,40 @@ export default function App() {
     () => {
       initScroll()
 
+      // gentle snap when the visitor stops near a scene boundary, without
+      // hijacking mid-scene frame reading
+      let bounds: number[] = []
+      const measure = () => {
+        const max = document.documentElement.scrollHeight - window.innerHeight
+        if (max <= 0) return
+        bounds = [...document.querySelectorAll<HTMLElement>('.scene')].map((el) => el.offsetTop / max)
+      }
+      measure()
+      ScrollTrigger.addEventListener('refresh', measure)
       ScrollTrigger.create({
-        trigger: document.documentElement,
         start: 0,
         end: 'max',
-        onUpdate: (self) => {
-          scrollState.progress = self.progress
+        snap: {
+          snapTo: (value) => {
+            let best = value
+            let dist = 1
+            for (const b of bounds) {
+              const d = Math.abs(value - b)
+              if (d < dist) {
+                dist = d
+                best = b
+              }
+            }
+            return dist < 0.04 ? best : value
+          },
+          duration: { min: 0.25, max: 0.6 },
+          delay: 0.15,
+          ease: 'power2.out',
         },
       })
 
-      SECTIONS.forEach((id) => {
-        ScrollTrigger.create({
-          trigger: `#${id}`,
-          start: 'top center',
-          end: 'bottom center',
-          onToggle: (self) => {
-            if (self.isActive) useStore.getState().setActiveSection(id)
-          },
-        })
-      })
-
-      measureSectionStops()
-      ScrollTrigger.addEventListener('refresh', measureSectionStops)
-
-      if (!prefersReducedMotion()) {
-        gsap.set('[data-reveal]', { opacity: 0, y: 28 })
-        ScrollTrigger.batch('[data-reveal]', {
-          start: 'top 88%',
-          once: true,
-          onEnter: (els) =>
-            gsap.to(els, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.08 }),
-        })
-      }
-
       return () => {
-        ScrollTrigger.removeEventListener('refresh', measureSectionStops)
+        ScrollTrigger.removeEventListener('refresh', measure)
         destroyScroll()
       }
     },
@@ -93,21 +85,21 @@ export default function App() {
 
   return (
     <div ref={rootRef} className={mode === 'interactive' ? 'interactive' : ''}>
-      {canvasReady ? (
+      {mode === 'interactive' && (
         <Suspense fallback={<Poster />}>
           <SceneCanvas />
         </Suspense>
-      ) : (
-        <Poster />
       )}
       <Navbar />
       <main>
-        <Hero />
-        <Skills />
-        <Experience />
-        <Projects />
-        <Contact />
+        <OpeningScene />
+        <SkillsScene />
+        <ExperienceScene />
+        <ProjectsScene />
+        <DeskScenePitch />
+        <ContactScene />
       </main>
+      <SceneHUD />
       <CommandHUD flash={flash} />
       <ExitChip />
       <DeskHint />
