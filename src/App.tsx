@@ -33,14 +33,22 @@ export default function App() {
 
   const mode = useStore((s) => s.mode)
 
-  // Interactive mode owns the page: no scrolling, no scenes.
+  // Interactive mode owns the page: no scrolling, no scenes. Coming back,
+  // the scenes re-appear from display:none, so ScrollTrigger must re-measure
+  // or every scrubbed timeline is left with collapsed positions.
   useEffect(() => {
     pauseScroll(mode === 'interactive')
+    if (mode === 'normal') {
+      requestAnimationFrame(() => requestAnimationFrame(() => ScrollTrigger.refresh()))
+    }
     return () => pauseScroll(false)
   }, [mode])
 
   useGSAP(
     () => {
+      // mobile URL bars show/hide constantly; don't rebuild trigger positions
+      // on those viewport-height-only resizes
+      ScrollTrigger.config({ ignoreMobileResize: true })
       initScroll()
 
       // gentle snap when the visitor stops near a scene boundary, without

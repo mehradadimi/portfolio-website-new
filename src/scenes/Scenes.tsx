@@ -101,9 +101,12 @@ export function SkillsScene() {
       index={1}
       heightVh={300}
       build={(tl) => {
-        gsap.set('.sk-row', { opacity: 0, y: 44 })
-        gsap.set('.sk-row .keycap', { opacity: 0, y: 18, scale: 0.92 })
+        // the first group is visible on arrival — never a blank screen
+        gsap.set('.sk-row:not(.sk-row-0)', { opacity: 0, y: 44 })
+        gsap.set('.sk-row:not(.sk-row-0) .keycap', { opacity: 0, y: 18, scale: 0.92 })
+        tl.to({}, { duration: 0.14 })
         SKILLS.forEach((_, i) => {
+          if (i === 0) return
           tl.to(`.sk-row-${i}`, { opacity: 1, y: 0, duration: 0.1 })
           tl.to(`.sk-row-${i} .keycap`, { opacity: 1, y: 0, scale: 1, stagger: 0.012, duration: 0.1 }, '<0.03')
           tl.to({}, { duration: 0.08 })
@@ -267,14 +270,13 @@ export function DeskScenePitch() {
       index={4}
       heightVh={260}
       build={(tl) => {
-        gsap.set('.dk-line-2', { opacity: 0, y: 40 })
+        // both headline lines visible on arrival; the reveal is the media
         gsap.set('.dk-media', { opacity: 0, scale: 0.94, rotateX: 6 })
         gsap.set('.dk-actions', { opacity: 0, y: 24 })
-        tl.to({}, { duration: 0.15 })
-          .to('.dk-line-2', { opacity: 1, y: 0, duration: 0.15 })
-          .to('.dk-media', { opacity: 1, scale: 1, rotateX: 0, duration: 0.25 })
-          .to('.dk-actions', { opacity: 1, y: 0, duration: 0.15 })
-          .to({}, { duration: 0.3 })
+        tl.to({}, { duration: 0.18 })
+          .to('.dk-media', { opacity: 1, scale: 1, rotateX: 0, duration: 0.28 })
+          .to('.dk-actions', { opacity: 1, y: 0, duration: 0.16 })
+          .to({}, { duration: 0.38 })
       }}
     >
       <div className="scene-inner dk">
@@ -327,12 +329,13 @@ export function ContactScene() {
       index={5}
       heightVh={200}
       build={(tl) => {
-        gsap.set('.ct-title, .ct-blurb, .ct-actions, .ct-footer', { opacity: 0, y: 36 })
-        tl.to('.ct-title', { opacity: 1, y: 0, duration: 0.16 })
+        // title visible on arrival; the rest staggers in
+        gsap.set('.ct-blurb, .ct-actions, .ct-footer', { opacity: 0, y: 36 })
+        tl.to({}, { duration: 0.1 })
           .to('.ct-blurb', { opacity: 1, y: 0, duration: 0.14 })
           .to('.ct-actions', { opacity: 1, y: 0, duration: 0.14 })
           .to('.ct-footer', { opacity: 1, y: 0, duration: 0.12 })
-          .to({}, { duration: 0.44 })
+          .to({}, { duration: 0.5 })
       }}
     >
       <div className="scene-inner ct">
