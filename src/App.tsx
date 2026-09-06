@@ -5,6 +5,7 @@ import { useGSAP } from '@gsap/react'
 import { Navbar } from './components/Navbar'
 import { ModeChooser, ExitChip, DeskHint } from './components/ModeChooser'
 import { CommandHUD, type Flash } from './components/CommandHUD'
+import { CreditsRoll } from './components/CreditsRoll'
 import { SceneHUD } from './scenes/SceneHUD'
 import {
   OpeningScene,
@@ -126,6 +127,7 @@ export default function App() {
       <ExitChip />
       <DeskHint />
       <ModeChooser />
+      <CreditsRoll />
     </div>
   )
 }

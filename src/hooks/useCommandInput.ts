@@ -36,6 +36,8 @@ export function useCommandInput(onFlash: (msg: string) => void): void {
 
     const onDown = (e: KeyboardEvent) => {
       if (isFormTarget(e) || e.metaKey || e.ctrlKey || e.altKey) return
+      // credits own the screen while rolling (its own Esc handler closes it)
+      if (useStore.getState().creditsOpen && e.key !== 'Escape') return
       if (!e.repeat) {
         emitKey(e.code, true)
         if (!useStore.getState().muted) thock()
@@ -48,9 +50,8 @@ export function useCommandInput(onFlash: (msg: string) => void): void {
           konamiIndex = 0
           buffer = ''
           emitBuffer('')
-          const { devMode, setDevMode } = useStore.getState()
-          setDevMode(!devMode)
-          onFlash(devMode ? "director's cut off" : "⌁ director's cut on")
+          const { creditsOpen, setCreditsOpen } = useStore.getState()
+          setCreditsOpen(!creditsOpen)
           return
         }
       } else {

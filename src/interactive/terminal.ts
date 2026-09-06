@@ -278,8 +278,9 @@ function exec(raw: string) {
       if (arg.includes('secrets')) {
         push('[sudo] password for visitor: ********', 'dim')
         push('secrets.txt:', 'accent')
-        push('  the konami code works everywhere on this site.')
+        push('  the konami code rolls the end credits, anywhere on this site.')
         push('  ↑ ↑ ↓ ↓ ← → ← → B A', 'accent')
+        push('  and "devmode" here wireframes the whole desk.')
       } else {
         push('visitor is not in the sudoers file.', 'dim')
         push('this incident will be reported. (to no one. it is my desk.)', 'dim')

@@ -363,7 +363,9 @@ export function ContactScene() {
             <LinkedinIcon /> linkedin
           </a>
         </div>
-        <p className="mono ct-footer">© {new Date().getFullYear()} Mehrad Adimi · fin · try the konami code</p>
+        <p className="mono ct-footer">
+          © {new Date().getFullYear()} Mehrad Adimi · fin · the konami code rolls the credits
+        </p>
       </div>
     </Scene>
   )

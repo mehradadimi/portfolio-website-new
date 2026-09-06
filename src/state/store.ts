@@ -21,6 +21,7 @@ interface UIState {
   chooserOpen: boolean
   screenZoom: boolean
   scene: number
+  creditsOpen: boolean
   toggleTheme: () => void
   toggleMuted: () => void
   setDevMode: (on: boolean) => void
@@ -28,6 +29,7 @@ interface UIState {
   setMode: (m: SiteMode) => void
   setScreenZoom: (z: boolean) => void
   setScene: (n: number) => void
+  setCreditsOpen: (open: boolean) => void
 }
 
 const isTouch = window.matchMedia('(pointer: coarse)').matches
@@ -42,6 +44,7 @@ export const useStore = create<UIState>((set) => ({
   chooserOpen: !isTouch && !sessionStorage.getItem('siteMode'),
   screenZoom: false,
   scene: 0,
+  creditsOpen: false,
   toggleTheme: () =>
     set((s) => {
       const theme: Theme = s.theme === 'dark' ? 'light' : 'dark'
@@ -61,6 +64,7 @@ export const useStore = create<UIState>((set) => ({
   },
   setScreenZoom: (screenZoom) => set({ screenZoom }),
   setScene: (scene) => set({ scene }),
+  setCreditsOpen: (creditsOpen) => set({ creditsOpen }),
 }))
 
 // Mirror theme onto <html data-theme> so CSS variables follow the store.

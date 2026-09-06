@@ -598,7 +598,146 @@ main {
   border-color: var(--accent);
 }
 
-/* ---------- director's cut (konami) ---------- */
+/* ---------- end credits (konami) ---------- */
+.credits {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: #050507;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.credits-roll {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  width: min(620px, 88vw);
+  text-align: center;
+  animation: credits-scroll 46s linear forwards;
+}
+
+@keyframes credits-scroll {
+  to {
+    top: -170%;
+  }
+}
+
+.credits-presents {
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin-bottom: 1.2rem;
+}
+
+.credits-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 7vw, 4.4rem);
+  line-height: 1;
+}
+
+.credits-title em,
+.credits-fin em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.credits-tag {
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin-top: 0.8rem;
+}
+
+.credits-block {
+  display: grid;
+  gap: 1.1rem;
+  margin: 3.2rem 0;
+}
+
+.credits-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.4rem;
+  align-items: baseline;
+}
+
+.credits-role {
+  text-align: right;
+  color: var(--muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+}
+
+.credits-who {
+  text-align: left;
+  color: var(--text);
+  font-size: 0.98rem;
+}
+
+.credits-section {
+  color: var(--accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  margin-top: 2.6rem;
+}
+
+.credits-location {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  margin: 1rem 0 3rem;
+}
+
+.credits-fine {
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.9;
+  margin-bottom: 1rem;
+}
+
+.credits-fine a {
+  color: var(--accent);
+}
+
+.credits-fin {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  margin: 4rem 0 8rem;
+}
+
+.credits-close {
+  position: fixed;
+  bottom: 1.4rem;
+  right: 1.4rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.credits-close:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .credits {
+    overflow-y: auto;
+  }
+
+  .credits-roll {
+    position: relative;
+    top: 0;
+    animation: none;
+    padding: 6rem 0;
+  }
+}
+
+/* ---------- director's cut (devmode) ---------- */
 /* classic-mode counterpart to the 3D wireframe: film registration marks,
    a slate badge, and the scene's layout boxes exposed */
 .dc-marks span {
