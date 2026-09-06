@@ -91,11 +91,27 @@ export interface SkillGroup {
 }
 
 export const SKILLS: SkillGroup[] = [
+  {
+    label: 'AI & Agents',
+    key: 'A',
+    items: [
+      'Claude Code',
+      'Cursor',
+      'MCP',
+      'Claude Agent SDK',
+      'Vercel AI SDK',
+      'agent tooling',
+      'function calling',
+      'knowledge graphs',
+      'Ollama',
+      'whisper.cpp',
+    ],
+  },
   { label: 'Languages', key: 'L', items: ['Python', 'TypeScript', 'JavaScript', 'Rust', 'SQL', 'Bash', 'HTML', 'CSS'] },
   { label: 'Frameworks', key: 'F', items: ['React', 'Next.js', 'Vue', 'Nuxt', 'React Native', 'Expo', 'Node.js', 'Express', 'Nest.js', 'Flask', 'Tauri', 'Tailwind CSS'] },
   { label: 'Infrastructure', key: 'I', items: ['AWS', 'GCP', 'Docker', 'Terraform', 'Cloudflare', 'Vercel', 'Fly.io', 'GitHub Actions', 'Sentry'] },
   { label: 'Databases', key: 'D', items: ['Postgres', 'MySQL', 'SQLite', 'Firebase', 'OpenSearch', 'Memgraph'] },
-  { label: 'Tools', key: 'T', items: ['Git', 'Jira', 'Stripe', 'Datadog', 'PostHog', 'Claude Code', 'Cursor', 'MCP', 'Whisper', 'Ollama', 'Apple HealthKit'] },
+  { label: 'Tools', key: 'T', items: ['Git', 'Jira', 'Stripe', 'Datadog', 'PostHog', 'Apple HealthKit'] },
 ]
 
 export interface Project {
