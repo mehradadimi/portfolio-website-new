@@ -598,6 +598,73 @@ main {
   border-color: var(--accent);
 }
 
+/* ---------- director's cut (konami) ---------- */
+/* classic-mode counterpart to the 3D wireframe: film registration marks,
+   a slate badge, and the scene's layout boxes exposed */
+.dc-marks span {
+  position: fixed;
+  z-index: 61;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--accent);
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.dc-marks span:nth-child(1) {
+  top: 14px;
+  left: 14px;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.dc-marks span:nth-child(2) {
+  top: 14px;
+  right: 14px;
+  border-left: 0;
+  border-bottom: 0;
+}
+
+.dc-marks span:nth-child(3) {
+  bottom: 14px;
+  left: 14px;
+  border-right: 0;
+  border-top: 0;
+}
+
+.dc-marks span:nth-child(4) {
+  bottom: 14px;
+  right: 14px;
+  border-left: 0;
+  border-top: 0;
+}
+
+.dc-badge {
+  position: fixed;
+  z-index: 61;
+  top: 5rem;
+  right: 1.6rem;
+  font-size: 0.72rem;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  pointer-events: none;
+}
+
+.directors-cut .scene-inner > *,
+.directors-cut .xp-frame,
+.directors-cut .pr-frame,
+.directors-cut .sk-row {
+  outline: 1px dashed rgba(255, 107, 74, 0.35);
+  outline-offset: 4px;
+}
+
+.directors-cut body::after,
+.directors-cut .pr-media {
+  opacity: 1;
+}
+
 /* ---------- command HUD ---------- */
 .hud {
   position: fixed;

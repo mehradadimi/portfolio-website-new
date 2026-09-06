@@ -32,6 +32,7 @@ export default function App() {
   useCommandInput(onFlash)
 
   const mode = useStore((s) => s.mode)
+  const devMode = useStore((s) => s.devMode)
 
   // Interactive mode owns the page: no scrolling, no scenes. Coming back,
   // the scenes re-appear from display:none, so ScrollTrigger must re-measure
@@ -92,7 +93,10 @@ export default function App() {
   )
 
   return (
-    <div ref={rootRef} className={mode === 'interactive' ? 'interactive' : ''}>
+    <div
+      ref={rootRef}
+      className={`${mode === 'interactive' ? 'interactive' : ''} ${devMode ? 'directors-cut' : ''}`}
+    >
       {mode === 'interactive' && (
         <Suspense fallback={<Poster />}>
           <SceneCanvas />
@@ -108,6 +112,16 @@ export default function App() {
         <ContactScene />
       </main>
       <SceneHUD />
+      {devMode && mode === 'normal' && (
+        <>
+          <div className="dc-marks" aria-hidden="true">
+            <span /><span /><span /><span />
+          </div>
+          <div className="dc-badge mono" aria-hidden="true">
+            ⌁ DIRECTOR'S CUT
+          </div>
+        </>
+      )}
       <CommandHUD flash={flash} />
       <ExitChip />
       <DeskHint />

@@ -50,7 +50,7 @@ export function useCommandInput(onFlash: (msg: string) => void): void {
           emitBuffer('')
           const { devMode, setDevMode } = useStore.getState()
           setDevMode(!devMode)
-          onFlash(devMode ? 'dev mode off' : '⌁ dev mode on')
+          onFlash(devMode ? "director's cut off" : "⌁ director's cut on")
           return
         }
       } else {
