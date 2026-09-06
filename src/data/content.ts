@@ -51,7 +51,7 @@ export const EXPERIENCE: Job[] = [
     company: 'Dopa',
     org: '',
     location: 'Remote',
-    period: 'Apr 2026 - Jul 2026',
+    period: 'Apr 2026 - Aug 2026',
     bullets: [
       'Architected an iOS health-verification subsystem built on Postgres with row-level security, a Deno edge function with per-user rate limiting, and a HealthKit abstraction gating daily check-ins.',
       'Built the analytics + feature-flag system on PostHog with identify-on-signin, anonymous-to-identified merging, and a typed feature-flag registry.',
