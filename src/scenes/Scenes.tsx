@@ -165,7 +165,7 @@ export function ExperienceScene() {
               <span className="mono xp-index">{String(i + 1).padStart(2, '0')}</span>
               <h3 className="xp-role">{job.role}</h3>
               <p className="xp-company">
-                @ {job.company} <span className="mono">({job.org})</span>
+                @ {job.company} {job.org && <span className="mono">({job.org})</span>}
               </p>
               <p className="mono xp-meta">
                 {job.location} · {job.period}

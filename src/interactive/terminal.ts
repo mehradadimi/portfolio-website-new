@@ -75,7 +75,7 @@ const FILES: Record<string, () => string[]> = {
   'experience.log': () =>
     EXPERIENCE.flatMap((j) => [
       `* ${j.role} @ ${j.company} (${j.period})`,
-      `  ${j.org} · ${j.location}`,
+      `  ${j.org ? j.org + ' · ' : ''}${j.location}`,
       ...j.bullets.map((b) => `  - ${b}`),
       '',
     ]),
